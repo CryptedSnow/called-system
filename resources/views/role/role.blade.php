@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     {{ __('Lista de papéis') }}
-                    <a href="{{ url("trash-role") }}" class="btn btn-danger" style="margin-left: 500px;"><i class="fa-solid fa-dumpster"></i>&nbsp;Lixeira</a>
+                    <a href="{{ url("trash-role") }}" class="btn btn-danger" style="margin-left: 520px;"><i class="fa-solid fa-dumpster"></i>&nbsp;Lixeira</a>
                     <a href="{{ url("add-role") }}" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Cadastrar</a>
                 </div>
                 <div class="card-body">
@@ -40,9 +40,9 @@
                               </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-role/$r->id") }}">
-                                  <a href="{{ url("update-role/$r->id") }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Atualizar</a>
+                                  <a href="{{ url("update-role/$r->id") }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
                                   @csrf @method('DELETE')
-                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;{{ __('Deletar') }} </button>
+                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                               </td>
                             </tr>

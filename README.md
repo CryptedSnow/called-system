@@ -7,60 +7,117 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Attention!
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Follow the steps to set the application on your local machine.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Step N°1 - Run the following commands below to install the dependencies (Verify the existence of `Composer`, `Node` and `NPM` on your machine).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```
+composer install 
+cp .env.example .env 
+php artisan cache:clear 
+composer dump-autoload 
+php artisan key:generate
+```
 
-## Learning Laravel
+Step N°2 - In `.env` file set the following snippet to connect the application to your database (Verify your database, it is necessary create a database to create the migrations).
+```
+# MySQL
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=name_database
+DB_USERNAME=root
+DB_PASSWORD=
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# PostgreSQL
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=name_database
+DB_USERNAME=postgres
+DB_PASSWORD=password
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Step N°3 - When executing the migrations, is necessary use the commands to create some populated tables to some selection fields at forms.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+php artisan migrate --seed
+```
 
-## Laravel Sponsors
+Or using the commands:
+```
+php artisan migrate
+php artisan db:seed
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Step N°4 - It will happen an error **relation "gravidades" does not exist** because of table `chamados` that receive a foreign key of table `gravidades`, it is necessary create manually this table to done the migration of table `chamados`.
 
-### Premium Partners
+```
+# View status migrations
+php artisan migrate:status
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+# Run the specific migration
+php artisan migrate --path=database/migrations/2024_01_07_144249_create_gravidades_table.php
 
-## Contributing
+# Check the gravidade table to see if there are records already filled, if not, run this command:
+php artisan db:seed GravidadeSeeder
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Step N°5 - Run again commands of step N°2.
 
-## Code of Conduct
+Step N°6 - View the migrations been dones e verify status them.
+```
+php artisan migrate:status
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Step N°7 - Run the following command to install `Vite`.
+```
+npm install
+```
 
-## Security Vulnerabilities
+Step N°8 - You need decide an option to start the `Vite`.
+```
+# Run Vite to server development
+npm run dev
+ 
+# Create and version assets for production... (I usually choose this on my local machine)
+npm run build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Step N°9 - Run the following command to start Apache to run the application.
+```
+php artisan serve
+```
 
-## License
+With help of [Laravel Spatie](https://spatie.be/docs/laravel-permission/v5/introduction), exist two roles user: **Admin** and **User**. Making certains roles user has more privileges than others, it is very important you run the seeds to those users be created.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Nome: Mario
+```
+Email: mario@world.com
+Password: 12345678
+Role: Admin, User
+Permission: NULL
+```
+
+* Nome: Luigi
+```
+Email: luigi@world.com
+Password: 12345678
+Role: User
+Permission: NULL
+```
+
+Some functionality are exclusives to **Admin**, others types of roles has not the same privileges.
+
+### Packages to study (They are used in this application)
+
+- **[Laravel Spatie](https://spatie.be/docs/laravel-permission/v5/introduction)**
+- **[LogViewer](https://github.com/ARCANEDEV/LogViewer)**
+- **[laravel-pt-BR-localization](https://github.com/lucascudo/laravel-pt-BR-localization)**
+- **[pt-br-validator](https://github.com/LaravelLegends/pt-br-validator)**
+- **[sweetalert2](https://sweetalert2.github.io/)**
+- **[laravel-dompdf](https://github.com/barryvdh/laravel-dompdf)**
+- **[maatwebsite/excel](https://packagist.org/packages/maatwebsite/excel)**
+- **[Laravel UI Auth](https://www.laravelia.com/post/laravel-9-auth-laravel-9-authentication-example)**

@@ -6,8 +6,10 @@ use App\Http\Requests\{DetailsUserRequest,PasswordRequest,UserRequest};
 use Illuminate\Support\Facades\{Auth,Hash};
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
+
 
 class UserController extends Controller
 {
@@ -87,11 +89,6 @@ class UserController extends Controller
         return redirect('trash-user')->with('destroy',"Usuário $nome foi excluído(a) permanentemente do sistema.");
     }
 
-    public function profile()
-    {
-        return view('profile.profile');
-    }
-
     public function updateDetails(DetailsUserRequest $request)
     {
         $user = Str::words(Auth::user()->name, 1, '');
@@ -104,9 +101,28 @@ class UserController extends Controller
     {
         $user = Str::words(Auth::user()->name, 1, '');
         $validacoes = $request->validated();
-        User::whereId(Auth::user()->id)->update(['password' => Hash::make($validacoes['confirm_password'])]);
+        User::whereId(Auth::user()->id)->update(['password' => Hash::make($validacoes['confirm_new_password'])]);
         Log::channel('daily')->info("Usuário(a) $user recebeu modificação no sistema.");
         return redirect('profile')->with('update',"Usuário(a) $user alterou sua senha com sucesso.");
+    }
+
+    public function searchUser(Request $request)
+    {
+        $filtro = $request->input('search');
+        $user = User::query()->where('name', 'LIKE', "%$filtro%")->paginate(5);
+        return view('user.user', compact('user'));
+    }
+
+    public function searchUserTrash(Request $request)
+    {
+        $filtro = $request->input('search');
+        $empresa = User::onlyTrashed()->where('name', 'LIKE', "%$filtro%")->paginate(5);
+        return view('user.trash-user', compact('empresa'));
+    }
+
+    public function profile()
+    {
+        return view('profile.profile');
     }
 
 }

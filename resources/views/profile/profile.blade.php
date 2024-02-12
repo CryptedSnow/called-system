@@ -75,9 +75,23 @@
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Nova senha') }}</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" name="confirm_password">
+                                <input type="password" class="form-control @error('new_password') is-invalid @enderror" name="new_password">
 
-                                @error('confirm_password')
+                                @error('new_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar nova senha') }}</label>
+
+                            <div class="col-md-6">
+                                <input type="password" class="form-control @error('confirm_new_password') is-invalid @enderror" name="confirm_new_password">
+
+                                @error('confirm_new_password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

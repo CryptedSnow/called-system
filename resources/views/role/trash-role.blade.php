@@ -39,9 +39,9 @@
                               </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-role-trash/$r->id") }}">
-                                  <a href="{{ url("restore-role/$r->id") }}" class="btn btn-primary"><i class="fa fa-arrows-rotate"></i>&nbsp;Restaurar</a>
+                                  <a href="{{ url("restore-role/$r->id") }}" class="btn btn-primary"><i class="fa fa-arrows-rotate"></i></a>
                                   @csrf @method('DELETE')
-                                  {{-- <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;{{ __('Deletar') }} </button> --}}
+                                  {{-- <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button> --}}
                                 </form>
                               </td>
                             </tr>

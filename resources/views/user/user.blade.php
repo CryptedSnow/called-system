@@ -40,9 +40,9 @@
                               </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-user/$u->id") }}">
-                                  <a href="{{ url("update-user/$u->id") }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Atualizar</a>
+                                  <a href="{{ url("update-user/$u->id") }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
                                   @csrf @method('DELETE')
-                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;{{ __('Deletar') }} </button>
+                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                               </td>
                             </tr>

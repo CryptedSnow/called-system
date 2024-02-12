@@ -95,8 +95,7 @@ class ChamadoController extends Controller
     public function searchChamado(Request $request)
     {
         $filtro = $request->input('search');
-        $chamado = ChamadoModel::query()
-        ->select('chamados.*', 'empresas.*','gravidades.*')
+        $chamado = ChamadoModel::select('chamados.*', 'empresas.*','gravidades.*')
         ->join('empresas', 'chamados.empresa_id', '=', 'empresas.id')
         ->join('gravidades', 'chamados.gravidade_id', '=', 'gravidades.id')
         ->where('empresas.nome_fantasia', 'LIKE', "%$filtro%")
@@ -108,8 +107,7 @@ class ChamadoController extends Controller
     public function searchChamadoTrash(Request $request)
     {
         $filtro = $request->input('search');
-        $chamado = ChamadoModel::query()
-        ->select('chamados.*', 'empresas.*','gravidades.*')
+        $chamado = ChamadoModel::select('chamados.*', 'empresas.*','gravidades.*')
         ->join('empresas', 'chamados.empresa_id', '=', 'empresas.id')
         ->join('gravidades', 'chamados.gravidade_id', '=', 'gravidades.id')
         ->where('empresas.nome_fantasia', 'LIKE', "%$filtro%")

@@ -38,12 +38,17 @@
                               <td> {{ $c->titulo }} </td>
                               <td> {{ $c->descricao }} </td>
                               <td> {{ $c->gravidade->tipo_gravidade }} </td>
-                              <td> {{ $c->status }} </td>
+                              <td>
+                                <span class="badge rounded-pill
+                                    {{ $c->status === 'Andamento' ? 'bg-danger' : ($c->status === 'Concluido' ? 'bg-success' : 'bg-dark') }}">
+                                    {{ $c->status }}
+                                </span>
+                              </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-trash-chamado/$c->id") }}">
-                                  <a href="{{ url("restore-chamado/$c->id") }}" class="btn btn-primary"><i class="fa fa-arrows-rotate"></i>&nbsp;Restaurar</a>
+                                  <a href="{{ url("restore-chamado/$c->id") }}" class="btn btn-primary"><i class="fa fa-arrows-rotate"></i></a>
                                   @csrf @method('DELETE')
-                                  {{-- <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;{{ __('Deletar') }} </button> --}}
+                                  {{-- <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button> --}}
                                 </form>
                               </td>
                             </tr>

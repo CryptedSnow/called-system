@@ -24,8 +24,8 @@ class DetailsUserRequest extends FormRequest
     {
         return match ($this->method()) {
             'PATCH' => [
-                'name' => ['required'],
-                'email' => ['required','email','unique:users'],
+                'name' => [],
+                'email' => ['email'],
             ],
         };
     }
