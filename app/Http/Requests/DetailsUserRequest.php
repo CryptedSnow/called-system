@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\MatchPasswordRule;
 
 class DetailsUserRequest extends FormRequest
 {
@@ -24,8 +25,9 @@ class DetailsUserRequest extends FormRequest
     {
         return match ($this->method()) {
             'PATCH' => [
-                'name' => [],
-                'email' => ['email'],
+                'name' => ['required'],
+                'email' => ['required','email'],
+                'current_password' => ['required', new MatchPasswordRule],
             ],
         };
     }
