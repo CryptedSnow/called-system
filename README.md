@@ -40,16 +40,10 @@ DB_USERNAME=postgres
 DB_PASSWORD=password
 ```
 
-Step N°3 - When executing the migrations, is necessary use the commands to create some populated tables to some selection fields at forms.
+Step N°3 - Execute the migrations.
 
-```
-php artisan migrate --seed
-```
-
-Or using the commands:
 ```
 php artisan migrate
-php artisan db:seed
 ```
 
 Step N°4 - It will happen an error **relation "gravidades" does not exist** because of table `chamados` that receive a foreign key of table `gravidades`, it is necessary create manually this table to done the migration of table `chamados`.
@@ -65,19 +59,23 @@ php artisan migrate --path=database/migrations/2024_01_07_144249_create_gravidad
 php artisan db:seed GravidadeSeeder
 ```
 
-Step N°5 - Run again commands of step N°2.
+Step N°5 - Use the commands to create some populated tables to some selection fields at forms.
+
+```
+php artisan db:seed
+```
 
 Step N°6 - View the migrations been dones e verify status them.
 ```
 php artisan migrate:status
 ```
 
-Step N°7 - Run the following command to install `Vite`.
+Step N°8 - Run the following command to install `Vite`.
 ```
 npm install
 ```
 
-Step N°8 - You need decide an option to start the `Vite`.
+Step N°9 - You need decide an option to start the `Vite`.
 ```
 # Run Vite to server development
 npm run dev
@@ -86,7 +84,7 @@ npm run dev
 npm run build
 ```
 
-Step N°9 - Run the following command to start Apache to run the application.
+Step N°10 - Run the following command to start Apache to run the application.
 ```
 php artisan serve
 ```
