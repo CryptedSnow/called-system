@@ -55,44 +55,39 @@ Route::middleware(['auth'])->group(function() {
     });
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', 'role:Admin'])->group(function() {
     Route::controller(PermissionController::class)->group(function(){
-        Route::middleware('role:Admin')->group(function () {
-            Route::get('/permission', 'index')->name('index');
-            Route::get('/add-permission', 'create')->name('create');
-            Route::post('/add-permission', 'store')->name('store');
-            Route::get('/update-permission/{id}', 'edit')->name('edit');
-            Route::patch('/update-permission/{id}', 'update')->name('update');
-            Route::delete('/delete-permission/{id}', 'destroy')->name('destroy');
-            Route::get('/search-permission', 'searchPermission')->name('searchPermission');
-            Route::get('/search-permission-trash', 'searchPermissionTrash')->name('searchPermissionTrash');
-            Route::get('/trash-permission', 'trashPermission')->name('trashPermission');
-            Route::get('/restore-permission/{id}', 'restorePermissionTrash')->name('restorePermissionTrash');
-            Route::delete('/delete-permission-trash/{id}', 'deletePermissionTrash')->name('deletePermissionTrash');
-        });
+        Route::get('/permission', 'index')->name('index');
+        Route::get('/add-permission', 'create')->name('create');
+        Route::post('/add-permission', 'store')->name('store');
+        Route::get('/update-permission/{id}', 'edit')->name('edit');
+        Route::patch('/update-permission/{id}', 'update')->name('update');
+        Route::delete('/delete-permission/{id}', 'destroy')->name('destroy');
+        Route::get('/search-permission', 'searchPermission')->name('searchPermission');
+        Route::get('/search-permission-trash', 'searchPermissionTrash')->name('searchPermissionTrash');
+        Route::get('/trash-permission', 'trashPermission')->name('trashPermission');
+        Route::get('/restore-permission/{id}', 'restorePermissionTrash')->name('restorePermissionTrash');
+        Route::delete('/delete-permission-trash/{id}', 'deletePermissionTrash')->name('deletePermissionTrash');
     });
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', 'role:Admin'])->group(function() {
     Route::controller(RoleController::class)->group(function(){
-        Route::middleware('role:Admin')->group(function () {
-            Route::get('/role', 'index')->name('index');
-            Route::get('/add-role', 'create')->name('create');
-            Route::post('/add-role', 'store')->name('store');
-            Route::get('/update-role/{id}', 'edit')->name('edit');
-            Route::patch('/update-role/{id}', 'update')->name('update');
-            Route::delete('/delete-role/{id}', 'destroy')->name('destroy');
-            Route::get('/trash-role', 'trashRole')->name('trashRole');
-            Route::get('/search-role', 'searchRole')->name('searchRole');
-            Route::get('/search-role-trash', 'searchRoleTrash')->name('searchRoleTrash');
-            Route::get('/restore-role/{id}', 'restoreRoleTrash')->name('restoreRoleTrash');
-            Route::delete('/delete-role-trash/{id}', 'deleteRoleTrash')->name('deleteRoleTrash');
-        });
+        Route::get('/role', 'index')->name('index');
+        Route::get('/add-role', 'create')->name('create');
+        Route::post('/add-role', 'store')->name('store');
+        Route::get('/update-role/{id}', 'edit')->name('edit');
+        Route::patch('/update-role/{id}', 'update')->name('update');
+        Route::delete('/delete-role/{id}', 'destroy')->name('destroy');
+        Route::get('/trash-role', 'trashRole')->name('trashRole');
+        Route::get('/search-role', 'searchRole')->name('searchRole');
+        Route::get('/search-role-trash', 'searchRoleTrash')->name('searchRoleTrash');
+        Route::get('/restore-role/{id}', 'restoreRoleTrash')->name('restoreRoleTrash');
+        Route::delete('/delete-role-trash/{id}', 'deleteRoleTrash')->name('deleteRoleTrash');
     });
 });
 
 Route::middleware(['auth'])->group(function() {
-
     Route::controller(UserController::class)->group(function(){
         Route::get('/profile', 'profile')->name('profile');
         Route::patch('/update-datails', 'updateDetails')->name('updateDetails');
