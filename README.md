@@ -37,29 +37,22 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=name_database
 DB_USERNAME=postgres
-DB_PASSWORD=password
+DB_PASSWORD=
 ```
 
-Step N°3 - Execute the migrations.
+Step N°3 - It ill happen an error **relation "gravidades" does not exist** because of table `chamados` that receive a foreign key of table `gravidades`, it is necessary create manually this table to done the migration of table `chamados`.
+
+```
+php artisan migrate --path=database/migrations/2024_01_07_144249_create_gravidades_table.php
+```
+
+Step N°4 - Execute the migrations.
 
 ```
 php artisan migrate
 ```
 
-Step N°4 - It will happen an error **relation "gravidades" does not exist** because of table `chamados` that receive a foreign key of table `gravidades`, it is necessary create manually this table to done the migration of table `chamados`.
-
-```
-# View status migrations
-php artisan migrate:status
-
-# Run the specific migration
-php artisan migrate --path=database/migrations/2024_01_07_144249_create_gravidades_table.php
-
-# Check the gravidade table to see if there are records already filled, if not, run this command:
-php artisan db:seed GravidadeSeeder
-```
-
-Step N°5 - Use the commands to create some populated tables to some selection fields at forms.
+Step N°5 - Use the commands to create some populated tables to some selection fields at forms (and users table).
 
 ```
 php artisan db:seed
@@ -70,12 +63,12 @@ Step N°6 - View the migrations been dones e verify status them.
 php artisan migrate:status
 ```
 
-Step N°8 - Run the following command to install `Vite`.
+Step N°7 - Run the following command to install `Vite`.
 ```
 npm install
 ```
 
-Step N°9 - You need decide an option to start the `Vite`.
+Step N°8 - You need decide an option to start the `Vite`.
 ```
 # Run Vite to server development
 npm run dev
@@ -84,7 +77,7 @@ npm run dev
 npm run build
 ```
 
-Step N°10 - Run the following command to start Apache to run the application.
+Step N°9 - Run the following command to start Apache to run the application.
 ```
 php artisan serve
 ```

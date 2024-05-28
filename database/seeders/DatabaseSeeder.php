@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserTypeSeeder::class,
+            GravidadeSeeder::class,
         ]);
     }
 }
