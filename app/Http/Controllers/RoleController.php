@@ -35,7 +35,7 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $permissions = Permission::orderBy('name')->get();
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::where('id', $id)->get();
         return view('role.update', compact(['role','permissions','roles']));
     }
 

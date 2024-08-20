@@ -31,7 +31,7 @@
                             <label class="col-md-4 col-form-label text-md-end">{{ __('CNPJ') }} <span class="required"> *</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control @error('cnpj_empresa') is-invalid @enderror" name="cnpj_empresa" value="{{ old('cnpj_empresa') }}">
+                                <input type="text" class="form-control @error('cnpj_empresa') is-invalid @enderror" name="cnpj_empresa" value="{{ old('cnpj_empresa') }}" id="cnpj_empresa">
 
                                 @error('cnpj_empresa')
                                     <span class="invalid-feedback" role="alert">

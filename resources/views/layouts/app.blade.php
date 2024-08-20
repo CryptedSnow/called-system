@@ -24,9 +24,10 @@
     <script type="text/javascript" src="{{ asset('sweetalert2/sweetalert2.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fontawesome/41b4cd8ba8.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('jquery/jquery-3.2.1.slim.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('jquery/jquery-3.7.1.js') }}"></script>
     <script type="text/javascript" src="{{ asset('jquery/jquery.mask.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('jquery/pooper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('jquery/input-mask.js') }}"></script>
     <script type="text/javascript" src="{{ asset('select2/select2.js') }}"></script>
 
     <!-- Scripts -->
