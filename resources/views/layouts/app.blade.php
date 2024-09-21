@@ -91,16 +91,14 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url("empresa") }}">
-                                    <i class="fa-regular fa-building"></i>&nbsp;{{ __('Empresa') }}
-                                </a>
+                                @role("Admin")
+                                    <a class="dropdown-item" href="{{ url("empresa") }}">
+                                        <i class="fa-regular fa-building"></i>&nbsp;{{ __('Empresa') }}
+                                    </a>
+                                @endrole
 
                                 <a class="dropdown-item" href="{{ url("chamado") }}">
                                     <i class="fa-solid fa-headset"></i>&nbsp;{{ __('Chamado') }}
-                                </a>
-
-                                <a class="dropdown-item" href="{{ url("log-viewer") }}" target="_blank">
-                                    <i class="fa-solid fa-circle-info"></i>&nbsp;{{ __('Logs') }}
                                 </a>
 
                                 @role("Admin")
@@ -123,6 +121,10 @@
 
                                 <a class="dropdown-item" href="{{ url("profile") }}">
                                     <i class="fa-solid fa-gear"></i>&nbsp;{{ __('Configurações') }}
+                                </a>
+
+                                <a class="dropdown-item" href="{{ url("log-viewer") }}" target="_blank">
+                                    <i class="fa-solid fa-circle-info"></i>&nbsp;{{ __('Logs') }}
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

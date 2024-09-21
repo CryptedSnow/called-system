@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\User;
+use App\Models\{User,EmpresaModel};
 
 
 class UserController extends Controller
@@ -22,7 +22,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::orderBy('name')->get();
-        return view('user.create', compact(['roles']));
+        $empresas = EmpresaModel::orderBy('id')->get();
+        return view('user.create', compact(['roles','empresas']));
     }
 
     public function store(UserRequest $request)
@@ -32,6 +33,7 @@ class UserController extends Controller
             'name' => $validacoes['name'],
             'email' => $validacoes['email'],
             'password' => Hash::make($validacoes['password']),
+            'empresa_id' => $validacoes['empresa_id'],
         ]);
         $roles = Role::whereIn('name', $validacoes['roles'])->pluck('id')->toArray();
         $user->roles()->attach($roles);
@@ -43,18 +45,23 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::orderBy('name')->get();
-        return view('user.update', compact(['user','roles']));
+        $empresas = EmpresaModel::orderBy('id')->get();
+        return view('user.update', compact(['user','roles','empresas']));
     }
 
     public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
-        $nome_user = User::where('id','=',$id)->value('name');
+        $nome_user = $user->name;
+        if ($request->has('empresa_id')) {
+            $user->empresa_id = $request->input('empresa_id');
+        }
+        $user->update($request->except('roles', 'empresa_id'));
         $roles_names = $request->input('roles', []);
         $roles_id = Role::whereIn('name', $roles_names)->pluck('id');
         $user->roles()->sync($roles_id);
         Log::channel('daily')->info("Usuário(a) $nome_user recebeu modificação no sistema.");
-        return redirect('user')->with('update',"Usuário(a) $nome_user recebeu modificação no sistema.");
+        return redirect('user')->with('update', "Usuário(a) $nome_user recebeu modificação no sistema.");
     }
 
     public function destroy($id)

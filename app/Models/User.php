@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresa_id'
     ];
 
     /**
@@ -44,4 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function empresa()
+    {
+        return $this->belongsTo(EmpresaModel::class, 'empresa_id');
+    }
 }

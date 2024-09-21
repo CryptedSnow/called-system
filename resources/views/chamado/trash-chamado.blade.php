@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <form action="{{ url('search-chamado-trash') }}" method="GET" class="form-inline">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Pesquisar nome da empresa, título ou descrição do chamado">
+                            <input type="text" name="search" class="form-control" placeholder="Pesquisar título ou descrição do chamado">
                             <div class="input-group-append">
                               <button type="submit" class="btn btn-primary"><i class="fa fa-magnifying-glass"></i></i>&nbsp;Filtrar</button>
                             </div>

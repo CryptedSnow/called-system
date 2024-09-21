@@ -26,7 +26,7 @@ class DetailsUserRequest extends FormRequest
         return match ($this->method()) {
             'PATCH' => [
                 'name' => ['required'],
-                'email' => ['required','email'],
+                'email' => ['required','email','unique:users,email,' . $this->user()->id],
                 'current_password' => ['required', new MatchPasswordRule],
             ],
         };

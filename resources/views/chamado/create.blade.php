@@ -19,10 +19,9 @@
 
                             <div class="col-md-6">
                                 <select class="form-control @error('empresa_id') is-invalid @enderror" name="empresa_id">
-                                    <option {{ old('empresa_id') == '' ? 'selected' : '' }} value="">{{ __('Escolha a empresa') }}</option>
-                                        @foreach($empresa as $e)
-                                    <option {{ old('empresa_id') == $e->id ? 'selected' : '' }} value="{{ $e->id }}">{{ $e->nome_fantasia }}</option>
-                                @endforeach
+                                    @foreach($empresa as $e)
+                                        <option {{ old('empresa_id') == $e->id ? 'selected' : '' }} value="{{ $e->id }}">{{ $e->nome_fantasia }}</option>
+                                    @endforeach
                                 </select>
                                 @error('empresa_id')
                                     <span class="invalid-feedback" role="alert">
@@ -66,9 +65,9 @@
                             <div class="col-md-6">
                                 <select class="form-control @error('gravidade_id') is-invalid @enderror" name="gravidade_id">
                                     <option {{ old('gravidade_id') == '' ? 'selected' : '' }} value="">{{ __('Escolha a gravidade') }}</option>
-                                        @foreach($gravidade as $g)
-                                    <option {{ old('gravidade_id') == $g->id ? 'selected' : '' }} value="{{ $g->id }}">{{ $g->tipo_gravidade }}</option>
-                                @endforeach
+                                    @foreach($gravidade as $g)
+                                        <option {{ old('gravidade_id') == $g->id ? 'selected' : '' }} value="{{ $g->id }}">{{ $g->tipo_gravidade }}</option>
+                                    @endforeach
                                 </select>
                                 @error('gravidade_id')
                                     <span class="invalid-feedback" role="alert">

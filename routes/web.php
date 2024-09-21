@@ -1,8 +1,7 @@
 <?php
 
 use App\Http\Controllers\{ChamadoController,EmpresaController,PermissionController,RoleController,UserController};
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\{Auth,Route};
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', 'role:Admin'])->group(function() {
     Route::controller(EmpresaController::class)->group(function(){
         Route::get('/empresa', 'index')->name('empresa');
         Route::get('/add-empresa', 'create')->name('create');

@@ -4,20 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChamadoRequest;
 use App\Models\{EmpresaModel,ChamadoModel,GravidadeModel};
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\{Auth,Log};
 use Illuminate\Http\Request;
 
 class ChamadoController extends Controller
 {
     public function index()
     {
-        $chamado = ChamadoModel::orderBy('id')->paginate(5);
+        $user_empresa = Auth::user()->empresa_id;
+        $chamado = ChamadoModel::orderBy('id')->where('empresa_id',"$user_empresa")->paginate(5);
         return view('chamado.chamado', compact('chamado'));
     }
 
     public function create()
     {
-        $empresa = EmpresaModel::orderBy('id')->get();
+        $user_empresa = Auth::user()->empresa_id;
+        $empresa = EmpresaModel::orderBy('id')->where('id',"$user_empresa")->get();
         $gravidade = GravidadeModel::orderBy('id')->get();
         return view('chamado.create', compact(['empresa','gravidade']));
     }
@@ -39,8 +41,9 @@ class ChamadoController extends Controller
 
     public function edit($id)
     {
+        $user_empresa = Auth::user()->empresa_id;
         $chamado = ChamadoModel::find($id);
-        $empresa = EmpresaModel::orderBy('id')->get();
+        $empresa = EmpresaModel::orderBy('id')->where('id',"$user_empresa")->get();
         $gravidade = GravidadeModel::orderBy('id')->get();
         return view('chamado.update', compact(['chamado','empresa','gravidade']));
     }
@@ -70,7 +73,8 @@ class ChamadoController extends Controller
 
     public function trashChamado()
     {
-        $chamado = ChamadoModel::onlyTrashed()->paginate(5);
+        $user_empresa = Auth::user()->empresa_id;
+        $chamado = ChamadoModel::onlyTrashed()->where('empresa_id',"$user_empresa")->paginate(5);
         return view('chamado.trash-chamado', compact('chamado'));
     }
 
@@ -94,25 +98,31 @@ class ChamadoController extends Controller
 
     public function searchChamado(Request $request)
     {
+        $user_empresa = Auth::user()->empresa_id;
         $filtro = $request->input('search');
-        $chamado = ChamadoModel::select('chamados.*', 'empresas.*','gravidades.*')
+        $chamado = ChamadoModel::select('chamados.*', 'empresas.*', 'gravidades.*')
         ->join('empresas', 'chamados.empresa_id', '=', 'empresas.id')
         ->join('gravidades', 'chamados.gravidade_id', '=', 'gravidades.id')
-        ->where('empresas.nome_fantasia', 'LIKE', "%$filtro%")
-        ->orWhere('chamados.titulo', 'LIKE', "%$filtro%")
-        ->orWhere('chamados.descricao', 'LIKE', "%$filtro%")->paginate(5);
+        ->where('empresas.id', '=', $user_empresa)
+        ->where(function($query) use ($filtro) {
+            $query->where('chamados.titulo', 'LIKE', "%$filtro%")
+            ->orWhere('chamados.descricao', 'LIKE', "%$filtro%");
+        })->paginate(5);
         return view('chamado.chamado', compact('chamado'));
     }
 
     public function searchChamadoTrash(Request $request)
     {
+        $user_empresa = Auth::user()->empresa_id;
         $filtro = $request->input('search');
-        $chamado = ChamadoModel::select('chamados.*', 'empresas.*','gravidades.*')
+        $chamado = ChamadoModel::select('chamados.*', 'empresas.*', 'gravidades.*')
         ->join('empresas', 'chamados.empresa_id', '=', 'empresas.id')
         ->join('gravidades', 'chamados.gravidade_id', '=', 'gravidades.id')
-        ->where('empresas.nome_fantasia', 'LIKE', "%$filtro%")
-        ->orWhere('chamados.titulo', 'LIKE', "%$filtro%")
-        ->orWhere('chamados.descricao', 'LIKE', "%$filtro%")->onlyTrashed()->paginate(5);
+        ->where('empresas.id', '=', $user_empresa)
+        ->where(function($query) use ($filtro) {
+            $query->where('chamados.titulo', 'LIKE', "%$filtro%")
+            ->orWhere('chamados.descricao', 'LIKE', "%$filtro%");
+        })->onlyTrashed()->paginate(5);
         return view('chamado.trash-chamado', compact('chamado'));
     }
 
