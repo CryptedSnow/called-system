@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use LaravelLegends\PtBrValidator\Rules\FormatoCnpj;
 use Illuminate\Support\Facades\Auth;
+use LaravelLegends\PtBrValidator\Rules\Cnpj;
 
 class EmpresaRequest extends FormRequest
 {
@@ -26,11 +26,11 @@ class EmpresaRequest extends FormRequest
         return match ($this->method()) {
             'POST' => [
                 'nome_fantasia' => 'required','max:50',
-                'cnpj_empresa' => ['required','unique:empresas,cnpj_empresa',new FormatoCnpj],
+                'cnpj_empresa' => ['required','unique:empresas,cnpj_empresa', new Cnpj],
             ],
             'PATCH' => [
                 'nome_fantasia' => 'required','max:50',
-                'cnpj_empresa' => ['required',new FormatoCnpj]
+                'cnpj_empresa' => ['required', new Cnpj]
             ],
         };
     }

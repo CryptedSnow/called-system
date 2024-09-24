@@ -43,6 +43,8 @@ DB_PASSWORD=
 Step N°3 - It ill happen an error **relation "gravidades" does not exist** because of table `chamados` that receive a foreign key of table `gravidades`, it is necessary create manually this table to done the migration of table `chamados`.
 
 ```
+php artisan migrate --path=database/migrations/2024_01_04_132604_create_empresas_table.php
+
 php artisan migrate --path=database/migrations/2024_01_07_144249_create_gravidades_table.php
 ```
 

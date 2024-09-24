@@ -28,6 +28,7 @@
                             <th> Descrição </th>
                             <th> Gravidade </th>
                             <th> Status </th>
+                            <th> Data de criação </th>
                             <th> Ações </th>
                           </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                     {{ $c->status }}
                                 </span>
                               </td>
+                              <td> {{ \Carbon\Carbon::parse($c->created_at)->format('d/m/Y H:i:s') }} </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-trash-chamado/$c->id") }}">
                                   <a href="{{ url("restore-chamado/$c->id") }}" class="btn btn-primary"><i class="fa fa-arrows-rotate"></i></a>
