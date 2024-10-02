@@ -19,6 +19,7 @@ class UserTypeSeeder extends Seeder
             'email' => 'mario@world.com',
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
+            'empresa_id' => 1,
         ])->assignRole('Admin','User');
 
         User::create([
@@ -26,6 +27,7 @@ class UserTypeSeeder extends Seeder
             'email' => 'luigi@world.com',
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),
+            'empresa_id' => 2,
         ])->assignRole('User');
     }
 }

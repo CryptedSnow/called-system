@@ -27,7 +27,6 @@ class DetailsUserRequest extends FormRequest
             'PATCH' => [
                 'name' => ['required'],
                 'email' => ['required','email','unique:users,email,' . $this->user()->id],
-                'current_password' => ['required', new MatchPasswordRule],
             ],
         };
     }
