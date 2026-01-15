@@ -31,15 +31,7 @@ class ChamadoController extends Controller
 
     public function store(ChamadoRequest $request)
     {
-        $validacoes = $request->validated();
-        $dados_tratados = [
-            'empresa_id' => (int) $validacoes['empresa_id'],
-            'titulo' => trim((string) $validacoes['titulo']),
-            'descricao' => trim((string) $validacoes['descricao']),
-            'gravidade_id' => (int) $validacoes['gravidade_id'],
-            'status' => trim((string) $validacoes['status']),
-        ];
-        ChamadoModel::create($dados_tratados);
+        ChamadoModel::create($request->validated());
         Log::channel('daily')->notice("Chamado $request->titulo está presente no sistema.");
         return redirect('chamado')->with('store',"Chamado $request->titulo está presente no sistema.");
     }
@@ -55,15 +47,7 @@ class ChamadoController extends Controller
 
     public function update(ChamadoRequest $request, $id)
     {
-        $validacoes = $request->validated();
-        $dados_tratados = [
-            'empresa_id' => (int) $validacoes['empresa_id'],
-            'titulo' => trim((string) $validacoes['titulo']),
-            'descricao' => trim((string) $validacoes['descricao']),
-            'gravidade_id' => (int) $validacoes['gravidade_id'],
-            'status' => trim((string) $validacoes['status']),
-        ];
-        ChamadoModel::where('id', $id)->update($dados_tratados);
+        ChamadoModel::where('id', $id)->update($request->validated());
         Log::channel('daily')->info("Chamado $request->titulo obteve atualização em suas informações.");
         return redirect('chamado')->with('update',"Chamado $request->titulo obteve atualização em suas informações.");
     }

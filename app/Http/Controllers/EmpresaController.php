@@ -22,12 +22,7 @@ class EmpresaController extends Controller
 
     public function store(EmpresaRequest $request)
     {
-        $validacoes = $request->validated();
-        $dados_tratados = [
-            'nome_fantasia' => trim((string) $validacoes['nome_fantasia']),
-            'cnpj_empresa' => trim((string) $validacoes['cnpj_empresa']),
-        ];
-        EmpresaModel::create($dados_tratados);
+        EmpresaModel::create($request->validated());
         Log::channel('daily')->notice("Empresa $request->nome_fantasia está presente no sistema.");
         return redirect('empresa')->with('store',"Empresa $request->nome_fantasia está presente no sistema.");
     }
@@ -40,12 +35,7 @@ class EmpresaController extends Controller
 
     public function update(EmpresaRequest $request, $id)
     {
-        $validacoes = $request->validated();
-        $dados_tratados = [
-            'nome_fantasia' => trim((string) $validacoes['nome_fantasia']),
-            'cnpj_empresa' => trim((string) $validacoes['cnpj_empresa']),
-        ];
-        EmpresaModel::where('id', $id)->update($dados_tratados);
+        EmpresaModel::where('id', $id)->update($request->validated());
         Log::channel('daily')->info("Empresa $request->nome_fantasia obteve atualização em suas informações.");
         return redirect('empresa')->with('update',"Empresa $request->nome_fantasia obteve atualização em suas informações.");
     }
