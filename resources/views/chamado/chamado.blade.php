@@ -46,7 +46,7 @@
                                     {{ $c->status }}
                                 </span>
                               </td>
-                              <td> {{ \Carbon\Carbon::parse($c->created_at)->format('d/m/Y H:i:s') }} </td>
+                              <td> {{ \Carbon\Carbon::parse($c->created_at)->format('d/m/Y H:i') }} </td>
                               <td>
                                 <form method="POST" action="{{ url("delete-chamado/$c->id") }}">
                                   <a href="{{ url("update-chamado/$c->id") }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
