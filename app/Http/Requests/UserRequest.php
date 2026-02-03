@@ -29,11 +29,11 @@ class UserRequest extends FormRequest
                 'password' => 'required|same:confirm_password',
                 'confirm_password' => 'required',
                 'roles' => 'required|exists:roles,name',
-                'empresa_id' => 'nullable|exists:empresas,id'
+                'empresas' => 'required|array|exists:empresas,id'
             ],
             'PATCH' => [
                 'roles' => 'required|exists:roles,name',
-                'empresa_id' => 'nullable|exists:empresas,id'
+                'empresas' => 'required|array|exists:empresas,id'
             ],
         };
     }

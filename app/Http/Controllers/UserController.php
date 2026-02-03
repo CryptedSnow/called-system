@@ -33,12 +33,11 @@ class UserController extends Controller
             'name' => $validacoes['name'],
             'email' => $validacoes['email'],
             'password' => Hash::make($validacoes['password']),
-            'empresa_id' => $validacoes['empresa_id'],
         ]);
-        $roles = Role::whereIn('name', $validacoes['roles'])->pluck('id')->toArray();
-        $user->roles()->attach($roles);
-        Log::channel('daily')->notice("Usuário(a) $request->name está presente no sistema.");
-        return redirect('user')->with('store',"Usuário(a) $request->name está presente no sistema.");
+        $user->syncRoles($validacoes['roles']);
+        $user->empresas()->sync($validacoes['empresas']);
+        Log::channel('daily')->notice("Usuário(a) {$user->name} criado(a) no sistema.");
+        return redirect('user')->with('store', "Usuário(a) {$user->name} criado(a) com sucesso.");
     }
 
     public function edit($id)
@@ -51,15 +50,11 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $nome_user = $user->name;
-        if ($request->has('empresa_id')) {
-            $user->empresa_id = $request->input('empresa_id');
-        }
-        $user->update($request->except('roles', 'empresa_id'));
-        $roles_names = $request->input('roles', []);
-        $roles_id = Role::whereIn('name', $roles_names)->pluck('id');
-        $user->roles()->sync($roles_id);
+        $user->update($request->except('roles', 'empresas'));
+        $user->syncRoles($request->input('roles', []));
+        $user->empresas()->sync($request->input('empresas', []));
         Log::channel('daily')->info("Usuário(a) $nome_user recebeu modificação no sistema.");
         return redirect('user')->with('update', "Usuário(a) $nome_user recebeu modificação no sistema.");
     }

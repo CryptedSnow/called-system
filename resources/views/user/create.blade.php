@@ -82,17 +82,20 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Empresa') }} <span class="required"> *</label>
+                            <label class="col-md-4 col-form-label text-md-end">{{ __('Empresas') }} <span class="required">*</span></label>
 
                             <div class="col-md-6">
-                                <select class="form-control @error('empresa_id') is-invalid @enderror" name="empresa_id">
-                                    <option {{ old('empresa_id') == '' ? 'selected' : '' }} value="">{{ __('Escolha a empresa') }}</option>
-                                        @foreach($empresas as $e)
-                                    <option {{ old('empresa_id') == $e->id ? 'selected' : '' }} value="{{ $e->id }}">{{ $e->nome_fantasia }}</option>
-                                @endforeach
+                                <select class="form-control js-example-basic-multiple @error('empresas') is-invalid @enderror" name="empresas[]" multiple>
+                                    @foreach($empresas as $e)
+                                        <option value="{{ $e->id }}"
+                                            {{ collect(old('empresas'))->contains($e->id) ? 'selected' : '' }}>
+                                            {{ $e->nome_fantasia }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                @error('empresa_id')
-                                    <span class="invalid-feedback" role="alert">
+
+                                @error('empresas')
+                                    <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
