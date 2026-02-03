@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{DetailsUserRequest,PasswordRequest,UserRequest};
-use Illuminate\Support\Facades\{Auth,Hash};
+use App\Http\Requests\{DetailsUserRequest, PasswordRequest, UserRequest};
+use Illuminate\Support\Facades\{Auth, Hash};
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\{User,EmpresaModel};
+use App\Models\{User ,Empresa};
 
 
 class UserController extends Controller
@@ -22,7 +22,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::orderBy('name')->get();
-        $empresas = EmpresaModel::orderBy('id')->get();
+        $empresas = Empresa::orderBy('id')->get();
         return view('user.create', compact(['roles','empresas']));
     }
 
@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::orderBy('name')->get();
-        $empresas = EmpresaModel::orderBy('id')->get();
+        $empresas = Empresa::orderBy('id')->get();
         return view('user.update', compact(['user','roles','empresas']));
     }
 

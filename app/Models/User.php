@@ -23,7 +23,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'empresa_id'
     ];
 
     /**
@@ -46,8 +45,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function empresa()
+    public function empresas()
     {
-        return $this->belongsTo(EmpresaModel::class, 'empresa_id');
+        return $this->belongsToMany(Empresa::class, 'users_empresas');
     }
+
 }

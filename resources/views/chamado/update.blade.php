@@ -63,13 +63,16 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Gravidade') }} <span class="required"> *</label>
 
                             <div class="col-md-6">
-                                <select class="form-control @error('gravidade_id') is-invalid @enderror" name="gravidade_id">
-                                    <option {{ $chamado->gravidade_id == '' ? 'selected' : '' }} value="">{{ __('Escolha a gravidade') }}</option>
+                                <select class="form-control @error('tipo_gravidade') is-invalid @enderror" name="tipo_gravidade">
+                                    <option value="">{{ __('Escolha a gravidade') }}</option>
                                     @foreach($gravidade as $g)
-                                        <option {{ $chamado->gravidade_id == $g->id ? 'selected' : '' }} value="{{ $g->id }}">{{ $g->tipo_gravidade }}</option>
+                                        <option value="{{ $g }}"
+                                            {{ old('tipo_gravidade', $chamado->tipo_gravidade?->value ?? $chamado->tipo_gravidade) == $g ? 'selected' : '' }}>
+                                            {{ $g }}
+                                        </option>
                                     @endforeach
                                 </select>
-                                @error('gravidade_id')
+                                @error('tipo_gravidade')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

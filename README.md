@@ -83,7 +83,8 @@ With help of [Laravel Spatie](https://spatie.be/docs/laravel-permission/v5/intro
 Email: mario@world.com
 Password: 12345678
 Role: Admin, User
-Permission: NULL
+Permission: Many
+Companies: Nostradamus, King Arthur
 ```
 
 * Nome: Luigi
@@ -91,7 +92,8 @@ Permission: NULL
 Email: luigi@world.com
 Password: 12345678
 Role: User
-Permission: NULL
+Permission: Many
+Companies: King Arthur
 ```
 
 Some functionality are exclusives to **Admin**, others types of roles has not the same privileges.

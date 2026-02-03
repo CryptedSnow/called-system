@@ -91,7 +91,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                @role("Admin")
+                                @role('Admin')
                                     <a class="dropdown-item" href="{{ url("empresa") }}">
                                         <i class="fa-regular fa-building"></i>&nbsp;{{ __('Empresa') }}
                                     </a>
@@ -101,19 +101,19 @@
                                     <i class="fa-solid fa-headset"></i>&nbsp;{{ __('Chamado') }}
                                 </a>
 
-                                @role("Admin")
+                                @role('Admin')
                                     <a class="dropdown-item" href="{{ url('user') }}">
                                         <i class="fa-regular fa-circle-user"></i>&nbsp;{{ __('Usuário') }}
                                     </a>
                                 @endrole
 
-                                @role("Admin")
+                                @role('Admin')
                                     <a class="dropdown-item" href="{{ url("role") }}">
                                         <i class="fa-solid fa-user-check"></i></i>&nbsp;{{ __('Regra') }}
                                     </a>
                                 @endrole
 
-                                @role("Admin")
+                                @role('Admin')
                                     <a class="dropdown-item" href="{{ url('permission') }}">
                                         <i class="fa-regular fa-circle-check"></i>&nbsp;{{ __('Permissão') }}
                                     </a>
@@ -123,7 +123,7 @@
                                     <i class="fa-solid fa-gear"></i>&nbsp;{{ __('Configurações') }}
                                 </a>
 
-                                @role("Admin")
+                                @role('Admin')
                                     <a class="dropdown-item" href="{{ url("log-viewer") }}" target="_blank">
                                         <i class="fa-solid fa-circle-info"></i>&nbsp;{{ __('Logs') }}
                                     </a>

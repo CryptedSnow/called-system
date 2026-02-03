@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gravidades', function (Blueprint $table) {
+        Schema::create('users_empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_gravidade');
+            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("empresa_id")->constrained("empresas");
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gravidades');
+        Schema::dropIfExists('users_empresas');
     }
 };

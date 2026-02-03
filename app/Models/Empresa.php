@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\{Model,SoftDeletes};
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
-class EmpresaModel extends Model
+class Empresa extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'empresas';
@@ -17,7 +17,7 @@ class EmpresaModel extends Model
 
     public function chamado()
     {
-        return $this->hasMany(ChamadoModel::class, 'empresa_id');
+        return $this->hasMany(Chamado::class, 'empresa_id');
     }
 
     public function user()

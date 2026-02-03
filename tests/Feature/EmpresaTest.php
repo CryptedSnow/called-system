@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\{EmpresaModel,User};
+use App\Models\{Empresa, User};
 use Illuminate\Foundation\Testing\{RefreshDatabase,WithFaker};
 use Tests\TestCase;
 
@@ -22,7 +22,7 @@ class EmpresaTest extends TestCase
         $user = User::where('id', "value_user_id")->first();
         $this->assertNotNull("Usuário Nº$user não encontrado no banco de dados.");
         $this->actingAs($user);
-        $empresas = EmpresaModel::all();
+        $empresas = Empresa::all();
         $empresas->each(function ($empresa) {
             echo "ID: {$empresa->id}, Nome fantasia: {$empresa->nome_fantasia}, CNPJ: {$empresa->cnpj_empresa}\n";
         });
@@ -47,7 +47,7 @@ class EmpresaTest extends TestCase
         $user = User::where('id', "value_user_id")->first();
         $this->assertNotNull("Usuário Nº$user não encontrado no banco de dados.");
         $this->actingAs($user);
-        $empresa = EmpresaModel::find($id);
+        $empresa = Empresa::find($id);
         $atualizar_empresa = [
             'nome_fantasia' => "Pão de queijo",
             'cnpj_empresa' => "58.742.446/0001-71",
@@ -62,7 +62,7 @@ class EmpresaTest extends TestCase
         $user = User::where('id', "value_user_id")->first();
         $this->assertNotNull("Usuário Nº$user não encontrado no banco de dados.");
         $this->actingAs($user);
-        $empresa = EmpresaModel::find($id);
+        $empresa = Empresa::find($id);
         $this->delete("/delete-empresa/$empresa->id");
         //$response->assertStatus(204);
     }
@@ -74,7 +74,7 @@ class EmpresaTest extends TestCase
         $this->actingAs($user);
         $filtro = "batata";
         $this->get("/search-empresa?search=$filtro");
-        $empresas = EmpresaModel::where('nome_fantasia', 'LIKE', "%$filtro%")->get();
+        $empresas = Empresa::where('nome_fantasia', 'LIKE', "%$filtro%")->get();
         $empresas->each(function ($empresa) {
             echo "ID: {$empresa->id}, Nome fantasia: {$empresa->nome_fantasia}, CNPJ: {$empresa->cnpj_empresa}\n";
         });
@@ -85,7 +85,7 @@ class EmpresaTest extends TestCase
         $user = User::where('id', "value_user_id")->first();
         $this->assertNotNull("Usuário Nº$user não encontrado no banco de dados.");
         $this->actingAs($user);
-        $empresas = EmpresaModel::onlyTrashed()->get();
+        $empresas = Empresa::onlyTrashed()->get();
         $empresas->each(function ($empresa) {
             echo "ID: {$empresa->id} | Nome fantasia: {$empresa->nome_fantasia} | CNPJ: {$empresa->cnpj_empresa} | Data de exclusão: {$empresa->deleted_at}\n";
         });
@@ -97,7 +97,7 @@ class EmpresaTest extends TestCase
         $user = User::where('id', "value_user_id")->first();
         $this->assertNotNull("Usuário Nº$user não encontrado no banco de dados.");
         $this->actingAs($user);
-        $empresa = EmpresaModel::onlyTrashed()->find($id);
+        $empresa = Empresa::onlyTrashed()->find($id);
         $this->get("/restore-empresa/$empresa->id");
         //$response->assertStatus(200);
     }
@@ -109,7 +109,7 @@ class EmpresaTest extends TestCase
         $this->actingAs($user);
         $filtro = "batata";
         $this->get("/search-empresa-trash?search=$filtro");
-        $empresas = EmpresaModel::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->get();
+        $empresas = Empresa::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->get();
         $empresas->each(function ($empresa) {
             echo "ID: {$empresa->id} | Nome fantasia: {$empresa->nome_fantasia} | CNPJ: {$empresa->cnpj_empresa} | Data de exclusão: {$empresa->deleted_at}\n";
         });

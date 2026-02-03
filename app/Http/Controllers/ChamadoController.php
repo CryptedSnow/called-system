@@ -2,80 +2,94 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\GravidadeEnum;
 use App\Http\Requests\ChamadoRequest;
-use App\Models\{EmpresaModel,ChamadoModel,GravidadeModel};
-use Illuminate\Support\Facades\{Auth,Log};
+use App\Models\{Empresa, Chamado};
+use Illuminate\Support\Facades\{Auth, Log};
 use Illuminate\Http\Request;
 
 class ChamadoController extends Controller
 {
     public function index()
     {
-        $user_empresa = Auth::user()->empresa_id;
         $user = Auth::user();
         if ($user->hasRole('Admin')) {
-            $chamado = ChamadoModel::orderBy('id')->paginate(5);
+            $chamado = Chamado::orderBy('id')->paginate(5);
         } else {
-            $chamado = ChamadoModel::orderBy('id')->where('empresa_id',"$user_empresa")->paginate(5);
+            $empresa_id = $user->empresas()->pluck('empresas.id');
+            $chamado = Chamado::whereIn('empresa_id', $empresa_id)->orderBy('id')->paginate(5);
         }
         return view('chamado.chamado', compact('chamado'));
     }
 
     public function create()
     {
-        $user_empresa = Auth::user()->empresa_id;
-        $empresa = EmpresaModel::orderBy('id')->where('id',"$user_empresa")->get();
-        $gravidade = GravidadeModel::orderBy('id')->get();
+        $user = Auth::user();
+        if ($user->hasRole('Admin')) {
+            $empresa = Empresa::orderBy('id')->get();
+        } else {
+            $empresa = $user->empresas()->orderBy('id')->get();
+        }
+        $gravidade = GravidadeEnum::options();
         return view('chamado.create', compact(['empresa','gravidade']));
     }
 
     public function store(ChamadoRequest $request)
     {
-        ChamadoModel::create($request->validated());
+        Chamado::create($request->validated());
         Log::channel('daily')->notice("Chamado $request->titulo está presente no sistema.");
         return redirect('chamado')->with('store',"Chamado $request->titulo está presente no sistema.");
     }
 
     public function edit($id)
     {
-        $user_empresa = Auth::user()->empresa_id;
-        $chamado = ChamadoModel::find($id);
-        $empresa = EmpresaModel::orderBy('id')->where('id',"$user_empresa")->get();
-        $gravidade = GravidadeModel::orderBy('id')->get();
+        $user = Auth::user();
+        $query = Chamado::query();
+        if (!$user->hasRole('Admin')) {
+            $empresa_id = $user->empresas()->pluck('empresas.id');
+            $query->whereIn('empresa_id', $empresa_id);
+        }
+        $chamado = $query->findOrFail($id);
+        if ($user->hasRole('Admin')) {
+            $empresa = Empresa::orderBy('id')->get();
+        } else {
+            $empresa = $user->empresas()->orderBy('id')->get();
+        }
+        $gravidade = GravidadeEnum::options();
         return view('chamado.update', compact(['chamado','empresa','gravidade']));
     }
 
     public function update(ChamadoRequest $request, $id)
     {
-        ChamadoModel::where('id', $id)->update($request->validated());
+        Chamado::where('id', $id)->update($request->validated());
         Log::channel('daily')->info("Chamado $request->titulo obteve atualização em suas informações.");
         return redirect('chamado')->with('update',"Chamado $request->titulo obteve atualização em suas informações.");
     }
 
     public function destroy($id)
     {
-        $titulo_chamado = ChamadoModel::where('id','=',$id)->value('titulo');
-        ChamadoModel::where('id', $id)->delete();
+        $titulo_chamado = Chamado::where('id','=',$id)->value('titulo');
+        Chamado::where('id', $id)->delete();
         Log::channel('daily')->warning("Chamado $titulo_chamado agora está na lixeira.");
         return redirect('chamado')->with('trash',"Chamado $titulo_chamado agora está na lixeira.");
     }
 
     public function trashChamado()
     {
-        $user_empresa = Auth::user()->empresa_id;
         $user = Auth::user();
-        if ($user->hasRole('Admin')) {
-            $chamado = ChamadoModel::orderBy('id')->onlyTrashed()->paginate(5);
-        } else {
-            $chamado = ChamadoModel::orderBy('id')->onlyTrashed()->where('empresa_id',"$user_empresa")->paginate(5);
+        $query = Chamado::onlyTrashed()->orderBy('id');
+        if (!$user->hasRole('Admin')) {
+            $empresa_id = $user->empresas()->pluck('empresas.id');
+            $query->whereIn('empresa_id', $empresa_id);
         }
+        $chamado = $query->paginate(5);
         return view('chamado.trash-chamado', compact('chamado'));
     }
 
     public function restoreChamado($id)
     {
-        $titulo = ChamadoModel::onlyTrashed()->find($id)->titulo;
-        $chamado = ChamadoModel::onlyTrashed()->find($id);
+        $titulo = Chamado::onlyTrashed()->find($id)->titulo;
+        $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->restore();
         Log::channel('daily')->notice("Chamado $titulo retornou a listagem de chamados.");
         return redirect('trash-chamado')->with('restored',"Chamado $titulo retornou a listagem de chamados.");
@@ -83,8 +97,8 @@ class ChamadoController extends Controller
 
     public function deleteChamado($id)
     {
-        $titulo = ChamadoModel::onlyTrashed()->find($id)->titulo;
-        $chamado = ChamadoModel::onlyTrashed()->find($id);
+        $titulo = Chamado::onlyTrashed()->find($id)->titulo;
+        $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->forceDelete();
         Log::channel('daily')->alert("Chamado $titulo foi excluído permanentemente do sistema.");
         return redirect('trash-chamado')->with('destroy',"Chamado $titulo foi excluído permanentemente do sistema.");
@@ -92,49 +106,30 @@ class ChamadoController extends Controller
 
     public function searchChamado(Request $request)
     {
-        $user_empresa = Auth::user()->empresa_id;
         $user = Auth::user();
         $filtro = $request->input('search');
-        if ($user->hasRole('Admin')) {
-            $chamado = ChamadoModel::with(['empresa', 'gravidade'])
-                ->whereAny(
-                    ['titulo', 'descricao'],
-                    'LIKE',
-                    "%{$filtro}%"
-                )->paginate(5);
-        } else {
-            $chamado = ChamadoModel::with(['empresa', 'gravidade'])
-                ->where('empresa_id', $user_empresa)
-                ->whereAny(
-                    ['titulo', 'descricao'],
-                    'LIKE',
-                    "%{$filtro}%"
-                )->paginate(5);
+        $query = Chamado::with(['empresa', 'gravidade'])
+            ->whereAny(['titulo', 'descricao'], 'LIKE', "%{$filtro}%");
+        if (!$user->hasRole('Admin')) {
+            $empresa_id = $user->empresas()->pluck('empresas.id');
+            $query->whereIn('empresa_id', $empresa_id);
         }
+        $chamado = $query->paginate(5);
         return view('chamado.chamado', compact('chamado'));
     }
 
     public function searchChamadoTrash(Request $request)
     {
-        $user_empresa = Auth::user()->empresa_id;
         $user = Auth::user();
         $filtro = $request->input('search');
-        if ($user->hasRole('Admin')) {
-            $chamado = ChamadoModel::with(['empresa', 'gravidade'])
-                ->whereAny(
-                    ['titulo', 'descricao'],
-                    'LIKE',
-                    "%{$filtro}%"
-                )->onlyTrashed()->paginate(5);
-        } else {
-            $chamado = ChamadoModel::with(['empresa', 'gravidade'])
-                ->where('empresa_id', $user_empresa)
-                ->whereAny(
-                    ['titulo', 'descricao'],
-                    'LIKE',
-                    "%{$filtro}%"
-                )->onlyTrashed()->paginate(5);
+        $query = Chamado::with(['empresa', 'gravidade'])
+            ->onlyTrashed()
+            ->whereAny(['titulo', 'descricao'], 'LIKE', "%{$filtro}%");
+        if (!$user->hasRole('Admin')) {
+            $empresa_id = $user->empresas()->pluck('empresas.id');
+            $query->whereIn('empresa_id', $empresa_id);
         }
+        $chamado = $query->paginate(5);
         return view('chamado.trash-chamado', compact('chamado'));
     }
 

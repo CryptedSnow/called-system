@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\GravidadeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
 
 class ChamadoRequest extends FormRequest
 {
@@ -27,14 +29,14 @@ class ChamadoRequest extends FormRequest
                 'empresa_id' => 'required|exists:empresas,id',
                 'titulo' => 'required|max:50',
                 'descricao' => 'required',
-                'gravidade_id' => 'required|exists:gravidades,id',
+                'tipo_gravidade' => ['required', new Enum(GravidadeEnum::class)],
                 'status' => 'required|in:Andamento,Concluido',
             ],
             'PATCH' => [
                 'empresa_id' => 'required|exists:empresas,id',
                 'titulo' => 'required|max:50',
                 'descricao' => 'required',
-                'gravidade_id' => 'required|exists:gravidades,id',
+                'tipo_gravidade' => ['required', new Enum(GravidadeEnum::class)],
                 'status' => 'required|in:Andamento,Concluido',
             ],
         };

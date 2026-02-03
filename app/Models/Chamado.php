@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\{Model,SoftDeletes};
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
-class ChamadoModel extends Model
+class Chamado extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'chamados';
@@ -14,18 +14,13 @@ class ChamadoModel extends Model
         'empresa_id',
         'titulo',
         'descricao',
-        'gravidade_id',
+        'tipo_gravidade',
         'status',
     ];
 
     public function empresa()
     {
-        return $this->belongsTo(EmpresaModel::class, 'empresa_id');
-    }
-
-    public function gravidade()
-    {
-        return $this->belongsTo(GravidadeModel::class, 'gravidade_id');
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
 }

@@ -39,7 +39,7 @@
                               <td> {{ $c->empresa->nome_fantasia }} </td>
                               <td> {{ $c->titulo }} </td>
                               <td> {{ $c->descricao }} </td>
-                              <td> {{ $c->gravidade->tipo_gravidade }} </td>
+                              <td> {{ $c->tipo_gravidade }} </td>
                               <td>
                                 <span class="badge rounded-pill
                                     {{ $c->status === 'Andamento' ? 'bg-danger' : ($c->status === 'Concluido' ? 'bg-success' : 'bg-dark') }}">

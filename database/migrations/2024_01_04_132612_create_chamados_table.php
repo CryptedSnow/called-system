@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId("empresa_id")->constrained("empresas");
             $table->string("titulo");
             $table->string("descricao");
-            $table->foreignId("gravidade_id")->constrained("gravidades");
+            $table->string("tipo_gravidade");
             $table->string("status", 10);
             $table->timestamps();
             $table->softDeletes();

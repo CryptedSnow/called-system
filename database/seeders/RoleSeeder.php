@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Spatie\Permission\Models\{Role,Permission};
+use Spatie\Permission\Models\{Role, Permission};
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -13,13 +13,43 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'Admin']);
-        Role::create(['name' => 'User']);
+        $permissions = [
+            'Estudar Inglês',
+            'Estudar Espanhol',
+            'Estudar Vue 3',
+            'Estudar Cybersecurity',
+            'Estudar MongoDB',
+        ];
 
-        Permission::create(['name' => 'Estudar Inglês']);
-        Permission::create(['name' => 'Estudar Espanhol']);
-        Permission::create(['name' => 'Estudar Vue 3']);
-        Permission::create(['name' => 'Estudar Cybersecurity']);
-        Permission::create(['name' => 'Estudar MongoDB']);
+        foreach ($permissions as $p) {
+            Permission::firstOrCreate(
+                ['name' => $p],
+                ['guard_name' => 'web']
+            );
+        }
+
+        $adminRole = Role::firstOrCreate(
+            ['name' => 'Admin'],
+            ['guard_name' => 'web']
+        );
+
+        $userRole = Role::firstOrCreate(
+            ['name' => 'User'],
+            ['guard_name' => 'web']
+        );
+
+        $adminPermissions = Permission::whereIn('name', [
+            'Estudar Inglês',
+            'Estudar Espanhol',
+            'Estudar Vue 3',
+        ])->get();
+
+        $userPermissions = Permission::whereIn('name', [
+            'Estudar Cybersecurity',
+            'Estudar MongoDB',
+        ])->get();
+
+        $adminRole->syncPermissions($adminPermissions);
+        $userRole->syncPermissions($userPermissions);
     }
 }

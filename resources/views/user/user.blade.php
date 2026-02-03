@@ -25,7 +25,7 @@
                         <thead>
                           <tr>
                             <th> Nome </th>
-                            <th> Empresa </th>
+                            <th> Empresa(s) </th>
                             <th> Papéis </th>
                             <th> Ações </th>
                           </tr>
@@ -34,7 +34,7 @@
                           @foreach ($user as $u)
                             <tr>
                               <td> {{ $u->name }} </td>
-                              <td> {{ $u->empresa?->nome_fantasia ?? 'Sem empresa' }} </td>
+                              <td> {{ $u->empresas->pluck('nome_fantasia')->join(', ') ?: 'Sem empresa' }} </td>
                               <td>
                                 @foreach($u->roles->pluck('name') as $u2)
                                     <span class="badge rounded-pill bg-dark">{{ $u2 }}</span>
