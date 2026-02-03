@@ -108,7 +108,7 @@ class ChamadoController extends Controller
     {
         $user = Auth::user();
         $filtro = $request->input('search');
-        $query = Chamado::with(['empresa', 'gravidade'])
+        $query = Chamado::with('empresa')
             ->whereAny(['titulo', 'descricao'], 'LIKE', "%{$filtro}%");
         if (!$user->hasRole('Admin')) {
             $empresa_id = $user->empresas()->pluck('empresas.id');
@@ -122,9 +122,9 @@ class ChamadoController extends Controller
     {
         $user = Auth::user();
         $filtro = $request->input('search');
-        $query = Chamado::with(['empresa', 'gravidade'])
-            ->onlyTrashed()
-            ->whereAny(['titulo', 'descricao'], 'LIKE', "%{$filtro}%");
+        $query = Chamado::with('empresa')
+            ->whereAny(['titulo', 'descricao'], 'LIKE', "%{$filtro}%")
+            ->onlyTrashed();
         if (!$user->hasRole('Admin')) {
             $empresa_id = $user->empresas()->pluck('empresas.id');
             $query->whereIn('empresa_id', $empresa_id);
