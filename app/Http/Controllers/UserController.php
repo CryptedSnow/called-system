@@ -15,13 +15,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::paginate(5);
+        $user = User::orderBy('id')->paginate(5);
         return view('user.user', compact(['user']));
     }
 
     public function create()
     {
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::orderBy('id')->get();
         $empresas = Empresa::orderBy('id')->get();
         return view('user.create', compact(['roles','empresas']));
     }
@@ -43,7 +43,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::orderBy('name')->get();
+        $roles = Role::orderBy('id')->get();
         $empresas = Empresa::orderBy('id')->get();
         return view('user.update', compact(['user','roles','empresas']));
     }
@@ -69,7 +69,7 @@ class UserController extends Controller
 
     public function trashUser()
     {
-        $user = User::onlyTrashed()->paginate(5);
+        $user = User::onlyTrashed()->orderBy('id')->paginate(5);
         return view('user.trash-user', compact('user'));
     }
 

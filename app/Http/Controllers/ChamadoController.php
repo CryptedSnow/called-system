@@ -25,11 +25,7 @@ class ChamadoController extends Controller
     public function create()
     {
         $user = Auth::user();
-        if ($user->hasRole('Admin')) {
-            $empresa = Empresa::orderBy('id')->get();
-        } else {
-            $empresa = $user->empresas()->orderBy('id')->get();
-        }
+        $empresa = $user->hasRole('Admin') ? Empresa::orderBy('id')->get() : $user->empresas()->orderBy('id')->get();
         $gravidade = GravidadeEnum::options();
         return view('chamado.create', compact(['empresa','gravidade']));
     }
@@ -50,11 +46,7 @@ class ChamadoController extends Controller
             $query->whereIn('empresa_id', $empresa_id);
         }
         $chamado = $query->findOrFail($id);
-        if ($user->hasRole('Admin')) {
-            $empresa = Empresa::orderBy('id')->get();
-        } else {
-            $empresa = $user->empresas()->orderBy('id')->get();
-        }
+        $empresa = $user->hasRole('Admin') ? Empresa::orderBy('id')->get() : $user->empresas()->orderBy('id')->get();
         $gravidade = GravidadeEnum::options();
         return view('chamado.update', compact(['chamado','empresa','gravidade']));
     }

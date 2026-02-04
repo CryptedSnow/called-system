@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    {{ __('Atualizar detalhes de perfil') }}
+                    {{ __('Atualizar login de perfil') }}
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ url('update-datails') }}">
