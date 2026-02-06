@@ -14,8 +14,9 @@ class EmpresaSeeder extends Seeder
     public function run(): void
     {
         $empresas = [
-            ['nome_fantasia' => 'Nostradamus', 'cnpj_empresa' => '92.772.051/0001-50'],
-            ['nome_fantasia' => 'King Arthur', 'cnpj_empresa' => '56.891.048/0001-91'],
+            ['nome_fantasia' => 'Yoshi\'s island', 'cnpj_empresa' => '92.772.051/0001-50'],
+            ['nome_fantasia' => 'Ghost House', 'cnpj_empresa' => '56.891.048/0001-91'],
+            ['nome_fantasia' => 'Valley of Bowser', 'cnpj_empresa' => '89.747.541/0001-91'],
         ];
 
         DB::table('empresas')->insert($empresas);

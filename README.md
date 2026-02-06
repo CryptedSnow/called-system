@@ -9,9 +9,9 @@
 
 ## Attention!
 
-Follow the steps to set the application on your local machine.
+Follow the steps to set up the application on your local machine.
 
-Step N°1 - Run the following commands below to install the dependencies (Verify the existence of `Composer`, `Node` and `NPM` on your machine).
+1 - Run the following commands below to install the dependencies (Before, check the existence of `Composer` on your machine).
 
 ```
 composer install 
@@ -21,7 +21,7 @@ composer dump-autoload
 php artisan key:generate
 ```
 
-Step N°2 - In `.env` file set the following snippet to connect the application to your database (Verify your database, it is necessary create a database to create the migrations).
+2 - In `.env` file set the following snippet to connect the application to your database (Check your database, it is necessary create a database to run the migrations).
 ```
 # MySQL
 DB_CONNECTION=mysql
@@ -40,29 +40,29 @@ DB_USERNAME=postgres
 DB_PASSWORD=
 ```
 
-Step N°3 - Execute the migrations.
+3 - Execute the migrations.
 
 ```
 php artisan migrate
 ```
 
-Step N°4 - Use the commands to create some populated tables to some selection fields at forms (and users table).
+4 - Use the commands to create registers to some tables.
 
 ```
 php artisan db:seed
 ```
 
-Step N°5 - View the migrations been dones e verify status them.
+5 - View the migrations been dones and check status them.
 ```
 php artisan migrate:status
 ```
 
-Step N°6 - Run the following command to install `Vite`.
+6 - Run the following command to install `Vite` (Before, check the existence of `Node` and `NPM` on your machine).
 ```
 npm install
 ```
 
-Step N°7 - You need decide an option to start the `Vite`.
+7 - You need decide an option to start the `Vite`.
 ```
 # Run Vite to server development
 npm run dev
@@ -71,29 +71,38 @@ npm run dev
 npm run build
 ```
 
-Step N°8 - Run the following command to start Apache to run the application.
+8 - Run the following command to start Apache to run the application.
 ```
 php artisan serve
 ```
 
 With help of [Laravel Spatie](https://spatie.be/docs/laravel-permission/v5/introduction), exist two roles user: **Admin** and **User**. Making certains roles user has more privileges than others, it is very important you run the seeds to those users be created.
 
-* Nome: Mario
+* Name: Mario
 ```
 Email: mario@world.com
-Password: 12345678
+Password: password
 Role: Admin, User
-Permission: Many
-Companies: Nostradamus, King Arthur
+Permission: Many permissions
+Companies: Yoshi's island, Ghost House, Valley of Bowser
 ```
 
-* Nome: Luigi
+* Name: Luigi
 ```
 Email: luigi@world.com
-Password: 12345678
+Password: password
 Role: User
-Permission: Many
-Companies: King Arthur
+Permission: Many permissions
+Companies: Ghost House
+```
+
+* Name: Bowser
+```
+Email: bowser@world.com
+Password: password
+Role: User
+Permission: Many permissions
+Companies: Valley of Bowser
 ```
 
 Some functionality are exclusives to **Admin**, others types of roles has not the same privileges.
