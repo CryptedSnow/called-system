@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::controller(PermissionController::class)->group(function(){
-            Route::get('/permission', 'index')->name('index');
+            Route::get('/permission', 'index')->name('permission');
             Route::get('/add-permission', 'create')->name('create');
             Route::post('/add-permission', 'store')->name('store');
             Route::get('/update-permission/{id}', 'edit')->name('edit');
@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::controller(RoleController::class)->group(function(){
-            Route::get('/role', 'index')->name('index');
+            Route::get('/role', 'index')->name('role');
             Route::get('/add-role', 'create')->name('create');
             Route::post('/add-role', 'store')->name('store');
             Route::get('/update-role/{id}', 'edit')->name('edit');
@@ -89,7 +89,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::controller(UserController::class)->group(function(){
-            Route::get('/user', 'index')->name('index');
+            Route::get('/user', 'index')->name('user');
             Route::get('/add-user', 'create')->name('create');
             Route::post('/add-user', 'store')->name('store');
             Route::get('/update-user/{id}', 'edit')->name('edit');

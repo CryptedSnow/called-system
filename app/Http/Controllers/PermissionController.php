@@ -24,7 +24,7 @@ class PermissionController extends Controller
     {
         Permission::create(array_map('trim', $request->validated()));
         Log::channel('daily')->notice("A permissão $request->name está presente no sistema.");
-        return redirect('permission')->with('store',"A permissão $request->name está presente no sistema.");
+        return redirect()->route('permission')->with('store',"A permissão $request->name está presente no sistema.");
     }
 
     public function edit($id)
@@ -37,7 +37,7 @@ class PermissionController extends Controller
     {
         Permission::where('id', $id)->update(array_map('trim', $request->validated()));
         Log::channel('daily')->info("A permissão $request->name obteve atualização em suas informações.");
-        return redirect('permission')->with('update',"A permissão $request->name obteve atualização em suas informações.");
+        return redirect()->route('permission')->with('update',"A permissão $request->name obteve atualização em suas informações.");
     }
 
     public function destroy($id)
@@ -45,7 +45,7 @@ class PermissionController extends Controller
         $nome = Permission::where('id', '=', $id)->value('name');
         Permission::where('id', $id)->delete();
         Log::channel('daily')->warning("A permissão $nome agora está na lixeira.");
-        return redirect('permission')->with('trash',"A permissão $nome agora está na lixeira.");
+        return redirect()->route('permission')->with('trash',"A permissão $nome agora está na lixeira.");
     }
 
     public function searchPermission(Request $request)
@@ -74,7 +74,7 @@ class PermissionController extends Controller
         $permission = Permission::onlyTrashed()->find($id);
         $permission->restore();
         Log::channel('daily')->notice("A permissão $nome retornou a listagem de permissões.");
-        return redirect('trash-permission')->with('restored',"A permissão $nome retornou a listagem de permissões.");
+        return redirect()->route('trashPermission')->with('restored',"A permissão $nome retornou a listagem de permissões.");
     }
 
     public function deletePermissionTrash($id)
@@ -83,7 +83,7 @@ class PermissionController extends Controller
         $permission = Permission::onlyTrashed()->find($id);
         $permission->forceDelete();
         Log::channel('daily')->alert("A permissão $nome foi excluído permanentemente do sistema.");
-        return redirect('trash-permission')->with('destroy',"A permissão $nome foi excluído permanentemente do sistema.");
+        return redirect()->route('trashPermission')->with('destroy',"A permissão $nome foi excluído permanentemente do sistema.");
     }
 
 }

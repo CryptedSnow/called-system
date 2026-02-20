@@ -36,7 +36,7 @@ class UserController extends Controller
         $user->syncRoles($validacoes['roles']);
         $user->empresas()->sync($validacoes['empresas']);
         Log::channel('daily')->notice("Usuário(a) {$user->name} criado(a) no sistema.");
-        return redirect('user')->with('store', "Usuário(a) {$user->name} criado(a) com sucesso.");
+        return redirect()->route('user')->with('store', "Usuário(a) {$user->name} criado(a) com sucesso.");
     }
 
     public function edit($id)
@@ -55,7 +55,7 @@ class UserController extends Controller
         $user->syncRoles($request->input('roles', []));
         $user->empresas()->sync($request->input('empresas', []));
         Log::channel('daily')->info("Usuário(a) $nome_user recebeu modificação no sistema.");
-        return redirect('user')->with('update', "Usuário(a) $nome_user recebeu modificação no sistema.");
+        return redirect()->route('user')->with('update', "Usuário(a) $nome_user recebeu modificação no sistema.");
     }
 
     public function destroy($id)
@@ -63,7 +63,7 @@ class UserController extends Controller
         $nome = User::where('id','=',$id)->value('name');
         User::where('id',$id)->delete();
         Log::channel('daily')->warning("Usuário(a) $nome agora está na lixeira.");
-        return redirect('user')->with('trash',"Usuário(a) $nome agora está na lixeira.");
+        return redirect()->route('user')->with('trash',"Usuário(a) $nome agora está na lixeira.");
     }
 
     public function trashUser()
@@ -78,7 +78,7 @@ class UserController extends Controller
         $user = User::onlyTrashed()->find($id);
         $user->restore();
         Log::channel('daily')->notice("Usuário(a) $nome retornou a listagem de usuários.");
-        return redirect('trash-user')->with('restored',"Usuário(a) $nome retornou a listagem de usuários.");
+        return redirect()->route('trashUser')->with('restored',"Usuário(a) $nome retornou a listagem de usuários.");
     }
 
     public function deleteUserTrash($id)
@@ -87,7 +87,7 @@ class UserController extends Controller
         $user = User::onlyTrashed()->find($id);
         $user->forceDelete();
         Log::channel('daily')->alert("Usuário $nome foi excluído permanentemente do sistema.");
-        return redirect('trash-user')->with('destroy',"Usuário $nome foi excluído(a) permanentemente do sistema.");
+        return redirect()->route('trashUser')->with('destroy',"Usuário $nome foi excluído(a) permanentemente do sistema.");
     }
 
     public function updateDetails(DetailsUserRequest $request)
@@ -95,7 +95,7 @@ class UserController extends Controller
         $user = Str::words(Auth::user()->name, 1, '');
         $validacoes = $request->validated();
         User::whereId(Auth::user()->id)->update(['name' => $validacoes['name'], 'email' => $validacoes['email']]);
-        return redirect('profile')->with('update',"Usuário(a) $user alterou suas informações pessoais.");
+        return redirect()->route('profile')->with('update',"Usuário(a) $user alterou suas informações pessoais.");
     }
 
     public function updatePassword(PasswordRequest $request)
@@ -104,7 +104,7 @@ class UserController extends Controller
         $validacoes = $request->validated();
         User::whereId(Auth::user()->id)->update(['password' => Hash::make($validacoes['confirm_new_password'])]);
         Log::channel('daily')->info("Usuário(a) $user recebeu modificação no sistema.");
-        return redirect('profile')->with('update',"Usuário(a) $user alterou sua senha com sucesso.");
+        return redirect()->route('profile')->with('update',"Usuário(a) $user alterou sua senha com sucesso.");
     }
 
     public function searchUser(Request $request)
@@ -117,8 +117,8 @@ class UserController extends Controller
     public function searchUserTrash(Request $request)
     {
         $filtro = $request->input('search');
-        $empresa = User::onlyTrashed()->where('name', 'LIKE', "%$filtro%")->paginate(5);
-        return view('user.trash-user', compact('empresa'));
+        $user = User::onlyTrashed()->where('name', 'LIKE', "%$filtro%")->paginate(5);
+        return view('user.trash-user', compact('user'));
     }
 
     public function profile()

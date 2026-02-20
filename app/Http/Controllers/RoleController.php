@@ -28,7 +28,7 @@ class RoleController extends Controller
         $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->all();
         $role->permissions()->attach($permission_id);
         Log::channel('daily')->notice("O papel $request->name está presente no sistema.");
-        return redirect('role')->with('store',"O papel $request->name está presente no sistema.");
+        return redirect()->route('role')->with('store',"O papel $request->name está presente no sistema.");
     }
 
     public function edit($id)
@@ -47,7 +47,7 @@ class RoleController extends Controller
         $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->all();
         $role->permissions()->sync($permission_id);
         Log::channel('daily')->info("O papel $request->name obteve atualização em suas informações.");
-        return redirect('role')->with('update',"O papel $request->name obteve atualização em suas informações.");
+        return redirect()->route('role')->with('update',"O papel $request->name obteve atualização em suas informações.");
     }
 
     public function destroy($id)
@@ -55,7 +55,7 @@ class RoleController extends Controller
         $nome = Role::where('id', '=', $id)->value('name');
         Role::where('id', $id)->delete();
         Log::channel('daily')->warning("O papel $nome agora está na lixeira.");
-        return redirect('role')->with('trash',"O papel $nome agora está na lixeira.");
+        return redirect()->route('role')->with('trash',"O papel $nome agora está na lixeira.");
     }
 
     public function searchRole(Request $request)
@@ -84,7 +84,7 @@ class RoleController extends Controller
         $role = Role::onlyTrashed()->find($id);
         $role->restore();
         Log::channel('daily')->notice("O papel $nome retornou a listagem de papéis.");
-        return redirect('trash-role')->with('restored',"O papel $nome retornou a listagem de papéis.");
+        return redirect()->route('trashRole')->with('restored',"O papel $nome retornou a listagem de papéis.");
     }
 
     public function deleteRoleTrash($id)
@@ -93,7 +93,7 @@ class RoleController extends Controller
         $role = Role::onlyTrashed()->find($id);
         $role->forceDelete();
         Log::channel('daily')->alert("O papel $nome foi excluído permanentemente do sistema.");
-        return redirect('trash-role')->with('destroy',"O papel $nome foi excluído permanentemente do sistema.");
+        return redirect()->route('trashRole')->with('destroy',"O papel $nome foi excluído permanentemente do sistema.");
     }
 
 }

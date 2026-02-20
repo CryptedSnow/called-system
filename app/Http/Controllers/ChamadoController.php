@@ -34,7 +34,7 @@ class ChamadoController extends Controller
     {
         Chamado::create($request->validated());
         Log::channel('daily')->notice("Chamado $request->titulo está presente no sistema.");
-        return redirect('chamado')->with('store',"Chamado $request->titulo está presente no sistema.");
+        return redirect()->route('chamado')->with('store',"Chamado $request->titulo está presente no sistema.");
     }
 
     public function edit($id)
@@ -55,7 +55,7 @@ class ChamadoController extends Controller
     {
         Chamado::where('id', $id)->update($request->validated());
         Log::channel('daily')->info("Chamado $request->titulo obteve atualização em suas informações.");
-        return redirect('chamado')->with('update',"Chamado $request->titulo obteve atualização em suas informações.");
+        return redirect()->route('chamado')->with('update',"Chamado $request->titulo obteve atualização em suas informações.");
     }
 
     public function destroy($id)
@@ -63,7 +63,7 @@ class ChamadoController extends Controller
         $titulo_chamado = Chamado::where('id','=',$id)->value('titulo');
         Chamado::where('id', $id)->delete();
         Log::channel('daily')->warning("Chamado $titulo_chamado agora está na lixeira.");
-        return redirect('chamado')->with('trash',"Chamado $titulo_chamado agora está na lixeira.");
+        return redirect()->route('chamado')->with('trash',"Chamado $titulo_chamado agora está na lixeira.");
     }
 
     public function trashChamado()
@@ -84,7 +84,7 @@ class ChamadoController extends Controller
         $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->restore();
         Log::channel('daily')->notice("Chamado $titulo retornou a listagem de chamados.");
-        return redirect('trash-chamado')->with('restored',"Chamado $titulo retornou a listagem de chamados.");
+        return redirect()->route('trashChamado')->with('restored',"Chamado $titulo retornou a listagem de chamados.");
     }
 
     public function deleteChamado($id)
@@ -93,7 +93,7 @@ class ChamadoController extends Controller
         $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->forceDelete();
         Log::channel('daily')->alert("Chamado $titulo foi excluído permanentemente do sistema.");
-        return redirect('trash-chamado')->with('destroy',"Chamado $titulo foi excluído permanentemente do sistema.");
+        return redirect()->route('trashChamado')->with('destroy',"Chamado $titulo foi excluído permanentemente do sistema.");
     }
 
     public function searchChamado(Request $request)
