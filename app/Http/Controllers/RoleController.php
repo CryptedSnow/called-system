@@ -25,7 +25,7 @@ class RoleController extends Controller
     {
         $role = Role::create($request->validated());
         $permissions = $request->input('permissions', []);
-        $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->all();
+        $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->toArray();
         $role->permissions()->attach($permission_id);
         Log::channel('daily')->notice("O papel $request->name está presente no sistema.");
         return redirect()->route('role')->with('store',"O papel $request->name está presente no sistema.");
@@ -44,7 +44,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         $role->update($request->validated());
         $permissions = $request->input('permissions', []);
-        $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->all();
+        $permission_id = Permission::whereIn('name', $permissions)->pluck('id')->toArray();
         $role->permissions()->sync($permission_id);
         Log::channel('daily')->info("O papel $request->name obteve atualização em suas informações.");
         return redirect()->route('role')->with('update',"O papel $request->name obteve atualização em suas informações.");
