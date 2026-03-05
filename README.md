@@ -63,17 +63,17 @@ php artisan db:seed
 php artisan migrate:status
 ```
 
-8 - Run the following command to install `Vite` (Before, check the existence of `Node` and `NPM` on your machine).
+8 - Run the following command to install Javascript dependencies. (Before, check the existence of `Node` and `NPM` on your machine).
 ```
 npm install
 ```
 
-9 - You need decide an option to start the `Vite`.
+9 - Run the following command to compile and optimize JavaScript files.
 ```
 # Run Vite to server development
 npm run dev
  
-# Create and version assets for production... (I usually choose this on my local machine)
+# Create and version assets for production... (I usually choose this on your local machine)
 npm run build
 ```
 
@@ -84,7 +84,7 @@ php artisan serve
 
 ## Docker environment
 
-Before run containers, you can choose PHP version of your preference (```8.0```,```8.1```,```8.2```,```8.3```,```8.4```, ```8.5``). In ```docker-compose.yml``` to ```context```  change the version:
+Before run containers, you can choose PHP version of your preference (```8.0```,```8.1```,```8.2```,```8.3```,```8.4``` and ```8.5```). In ```docker-compose.yml``` to ```context```  change the version:
 
 ```
 // Example: Change version to 8.0 
@@ -156,13 +156,17 @@ docker-compose exec app php artisan db:seed
 docker-compose exec app php artisan migrate:status
 ```
 
-9 - Run the following command to install javascript dependencies.
+9 - Run the following command to install Javascript dependencies.
 ```
 docker-compose exec app npm install
 ```
 
-10 - Run the following command to compile and optimize javaScript files for production.
+10 - Run the following command to compile and optimize JavaScript files.
 ```
+# Run Vite to server development
+docker-compose exec app npm run dev
+
+# Create and version assets for production... (I usually choose this on your local machine)
 docker-compose exec app npm run build
 ```
 
@@ -211,11 +215,9 @@ Some functionality are exclusives to **Admin**, others types of roles has not th
 
 ### Packages to study (They are used in this application)
 
-- **[Laravel Spatie](https://spatie.be/docs/laravel-permission/v5/introduction)**
+- **[Laravel Spatie](https://spatie.be/docs/laravel-permission/v6/introduction)**
 - **[LogViewer](https://github.com/ARCANEDEV/LogViewer)**
 - **[laravel-pt-BR-localization](https://github.com/lucascudo/laravel-pt-BR-localization)**
 - **[pt-br-validator](https://github.com/LaravelLegends/pt-br-validator)**
 - **[sweetalert2](https://sweetalert2.github.io/)**
-- **[laravel-dompdf](https://github.com/barryvdh/laravel-dompdf)**
-- **[maatwebsite/excel](https://packagist.org/packages/maatwebsite/excel)**
-- **[Laravel UI Auth](https://www.laravelia.com/post/laravel-9-auth-laravel-9-authentication-example)**
+- **[select2](https://select2.org/)**

@@ -170,8 +170,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ])->toArray(),
 
