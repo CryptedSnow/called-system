@@ -11,8 +11,8 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permission = Permission::paginate(5);
-        return view('permission.permission', compact(['permission']));
+        $permission = Permission::orderBy('id')->paginate(5);
+        return view('permission.permission', compact('permission'));
     }
 
     public function create()

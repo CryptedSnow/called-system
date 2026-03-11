@@ -30,7 +30,7 @@ class EmpresaController extends Controller
     public function edit($id)
     {
         $empresa = Empresa::find($id);
-        return view('empresa.update', compact(['empresa']));
+        return view('empresa.update', compact('empresa'));
     }
 
     public function update(EmpresaRequest $request, $id)

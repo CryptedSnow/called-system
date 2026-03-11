@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::orderBy('id')->paginate(5);
-        return view('user.user', compact(['user']));
+        return view('user.user', compact('user'));
     }
 
     public function create()
@@ -48,7 +48,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $nome_user = $user->name;
         $user->update($request->except('roles', 'empresas'));
         $user->syncRoles($request->input('roles', []));

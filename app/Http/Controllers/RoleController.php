@@ -11,14 +11,14 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $role = Role::paginate(5);
-        return view('role.role', compact(['role']));
+        $role = Role::orderBy(column: 'id')->paginate(5);
+        return view('role.role', compact('role'));
     }
 
     public function create()
     {
-        $permissions = Permission::orderBy('id')->get();
-        return view('role.create', compact(['permissions']));
+        $permissions = Permission::orderBy(column: 'id')->get();
+        return view('role.create', compact('permissions'));
     }
 
     public function store(RoleRequest $request)
