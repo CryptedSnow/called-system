@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enum\GravidadeEnum;
+use App\Enum\{GravidadeChamadoEnum, StatusChamadoEnum};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
@@ -29,15 +29,15 @@ class ChamadoRequest extends FormRequest
                 'empresa_id' => 'required|exists:empresas,id',
                 'titulo' => 'required|max:50',
                 'descricao' => 'required',
-                'tipo_gravidade' => ['required', new Enum(GravidadeEnum::class)],
-                'status' => 'required|in:Andamento,Concluido',
+                'tipo_gravidade' => ['required', new Enum(GravidadeChamadoEnum::class)],
+                'status' => ['required', new Enum(StatusChamadoEnum::class)],
             ],
             'PATCH' => [
                 'empresa_id' => 'required|exists:empresas,id',
                 'titulo' => 'required|max:50',
                 'descricao' => 'required',
-                'tipo_gravidade' => ['required', new Enum(GravidadeEnum::class)],
-                'status' => 'required|in:Andamento,Concluido',
+                'tipo_gravidade' => ['required', new Enum(GravidadeChamadoEnum::class)],
+                'status' => ['required', new Enum(StatusChamadoEnum::class)],
             ],
         };
     }

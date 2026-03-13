@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\GravidadeEnum;
+use App\Enum\{GravidadeChamadoEnum, StatusChamadoEnum};
 use App\Http\Requests\ChamadoRequest;
 use App\Models\{Empresa, Chamado};
 use Illuminate\Support\Facades\{Auth, Log};
@@ -26,8 +26,9 @@ class ChamadoController extends Controller
     {
         $user = Auth::user();
         $empresa = $user->hasRole('Admin') ? Empresa::orderBy('id')->get() : $user->empresas()->orderBy('id')->get();
-        $gravidade = GravidadeEnum::options();
-        return view('chamado.create', compact(['empresa','gravidade']));
+        $gravidade = GravidadeChamadoEnum::options();
+        $status = StatusChamadoEnum::options();
+        return view('chamado.create', compact(['empresa','gravidade','status']));
     }
 
     public function store(ChamadoRequest $request)
@@ -47,8 +48,9 @@ class ChamadoController extends Controller
         }
         $chamado = $query->find($id);
         $empresa = $user->hasRole('Admin') ? Empresa::orderBy('id')->get() : $user->empresas()->orderBy('id')->get();
-        $gravidade = GravidadeEnum::options();
-        return view('chamado.update', compact(['chamado','empresa','gravidade']));
+        $gravidade = GravidadeChamadoEnum::options();
+        $status = StatusChamadoEnum::options();
+        return view('chamado.update', compact(['chamado','empresa','gravidade','status']));
     }
 
     public function update(ChamadoRequest $request, $id)
@@ -81,7 +83,7 @@ class ChamadoController extends Controller
     public function restoreChamado($id)
     {
         $titulo = Chamado::onlyTrashed()->find($id)->titulo;
-        $chamado = Chamado::onlyTrashed()->findOrFail($id);
+        $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->restore();
         Log::channel('daily')->notice("Chamado $titulo retornou a listagem de chamados.");
         return redirect()->route('trashChamado')->with('restored',"Chamado $titulo retornou a listagem de chamados.");
@@ -90,7 +92,7 @@ class ChamadoController extends Controller
     public function deleteChamado($id)
     {
         $titulo = Chamado::onlyTrashed()->find($id)->titulo;
-        $chamado = Chamado::onlyTrashed()->findOrFail($id);
+        $chamado = Chamado::onlyTrashed()->find($id);
         $chamado->forceDelete();
         Log::channel('daily')->alert("Chamado $titulo foi excluído permanentemente do sistema.");
         return redirect()->route('trashChamado')->with('destroy',"Chamado $titulo foi excluído permanentemente do sistema.");

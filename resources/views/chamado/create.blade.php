@@ -85,15 +85,16 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Status') }} <span class="required"> *</label>
 
                             <div class="col-md-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="andamento" name="status" value="Andamento" {{ old('status') === 'Andamento' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="andamento">Andamento</label>
-                                </div>
 
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="concluido" name="status" value="Concluido" {{ old('status') === 'Concluido' ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="concluido">Concluído</label>
-                                </div>
+                                @foreach ($status as $s)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input @error('status') is-invalid @enderror" type="radio" name="status" value="{{ $s }}"
+                                            {{ old('status') === $s ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="status_{{ $s }}">
+                                            {{ $s }}
+                                        </label>
+                                    </div>
+                                @endforeach
 
                                 @error('status')
                                     <span class="invalid-feedback" role="alert">

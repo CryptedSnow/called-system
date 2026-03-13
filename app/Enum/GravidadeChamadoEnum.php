@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum GravidadeEnum: string
+enum GravidadeChamadoEnum: string
 {
     case BAIXA = 'Baixa';
     case MEDIA = 'Média';

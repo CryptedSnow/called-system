@@ -41,7 +41,7 @@
                               <td> {{ $c->tipo_gravidade }} </td>
                               <td>
                                 <span class="badge rounded-pill
-                                    {{ $c->status === 'Andamento' ? 'bg-danger' : ($c->status === 'Concluido' ? 'bg-success' : 'bg-dark') }}">
+                                    {{ $c->status === 'Andamento' ? 'bg-danger' : ($c->status === 'Concluído' ? 'bg-success' : 'bg-dark') }}">
                                     {{ $c->status }}
                                 </span>
                               </td>
