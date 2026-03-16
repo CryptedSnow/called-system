@@ -14,10 +14,10 @@ class ChamadoController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('Admin')) {
-            $chamado = Chamado::orderBy('created_at', 'desc')->paginate(5);
+            $chamado = Chamado::with('empresa')->orderBy('created_at', 'desc')->paginate(5);
         } else {
             $empresa_id = $user->empresas()->pluck('empresas.id');
-            $chamado = Chamado::whereIn('empresa_id', $empresa_id)->orderBy('created_at', 'desc')->paginate(5);
+            $chamado = Chamado::whereIn('empresa_id', $empresa_id)->with('empresa')->orderBy('created_at', 'desc')->paginate(5);
         }
         return view('chamado.chamado', compact('chamado'));
     }
@@ -41,7 +41,7 @@ class ChamadoController extends Controller
     public function edit($id)
     {
         $user = Auth::user();
-        $query = Chamado::orderBy('id')->get();
+        $query = Chamado::with('empresa')->orderBy('id')->get();
         if (!$user->hasRole('Admin')) {
             $empresa_id = $user->empresas()->pluck('empresas.id');
             $query->whereIn('empresa_id', $empresa_id);
@@ -71,7 +71,7 @@ class ChamadoController extends Controller
     public function trashChamado()
     {
         $user = Auth::user();
-        $query = Chamado::onlyTrashed()->orderBy('created_at', 'desc');
+        $query = Chamado::onlyTrashed()->with('empresa')->orderBy('created_at', 'desc');
         if (!$user->hasRole('Admin')) {
             $empresa_id = $user->empresas()->pluck('empresas.id');
             $query->whereIn('empresa_id', $empresa_id);
