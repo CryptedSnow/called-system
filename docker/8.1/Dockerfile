@@ -25,10 +25,8 @@ RUN docker-php-ext-install pdo_pgsql pdo_mysql mbstring zip exif pcntl bcmath ge
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ARG NODE_VERSION=22
-RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -E \
+    && apt-get install -y nodejs
 
 RUN groupadd -g 1000 www && \
     useradd -u 1000 -ms /bin/bash -g www www

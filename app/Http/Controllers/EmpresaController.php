@@ -11,7 +11,7 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        $empresa = Empresa::orderBy('id')->paginate(5);
+        $empresa = Empresa::with('chamado')->orderBy('id')->paginate(5);
         return view('empresa.empresa', compact('empresa'));
     }
 
@@ -50,7 +50,7 @@ class EmpresaController extends Controller
 
     public function trashEmpresa()
     {
-        $empresa = Empresa::onlyTrashed()->paginate(5);
+        $empresa = Empresa::with('chamado')->orderby('id')->onlyTrashed()->paginate(5);
         return view('empresa.trash-empresa', compact('empresa'));
     }
 
@@ -80,14 +80,14 @@ class EmpresaController extends Controller
     public function searchEmpresa(Request $request)
     {
         $filtro = $request->input('search');
-        $empresa = Empresa::query()->where('nome_fantasia', 'LIKE', "%$filtro%")->paginate(5);
+        $empresa = Empresa::query()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->orderby('id')->paginate(5);
         return view('empresa.empresa', compact('empresa'));
     }
 
     public function searchEmpresaTrash(Request $request)
     {
         $filtro = $request->input('search');
-        $empresa = Empresa::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->paginate(5);
+        $empresa = Empresa::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->orderby('id')->paginate(5);
         return view('empresa.trash-empresa', compact('empresa'));
     }
 
