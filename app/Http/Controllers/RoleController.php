@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoleRequest;
-use Spatie\Permission\Models\{Permission, Role};
+use App\Models\{Permission, Role};
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
