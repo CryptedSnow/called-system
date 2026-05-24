@@ -1,78 +1,3 @@
-## Attention!
-
-Follow the steps to set up the application on your local machine.
-
-1 - Run the ```composer install``` command to create ```vendor``` folder.
-
-```
-composer install 
-```
-
-2 - Create ```.env``` file:
-```
-cp .env.example .env
-```
-
-3 - Generate crypted key (Fill ```APP_KEY=``` to ```.env``` file):
-```
-php artisan key:generate
-```
-
-4 - In `.env` file set the following snippet to connect the application to your database (Check your database, it is necessary create a database to run the migrations).
-```
-# MySQL
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=name_database
-DB_USERNAME=root
-DB_PASSWORD=
-
-# PostgreSQL
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=name_database
-DB_USERNAME=postgres
-DB_PASSWORD=
-```
-
-5 - Execute the migrations.
-
-```
-php artisan migrate
-```
-
-6 - Use the commands to create registers to some tables.
-
-```
-php artisan db:seed
-```
-
-7 - View the migrations been dones and check status them.
-```
-php artisan migrate:status
-```
-
-8 - Run the following command to install Javascript dependencies. (Before, check the existence of `Node` and `NPM` on your machine).
-```
-npm install
-```
-
-9 - Run the following command to compile and optimize JavaScript files.
-```
-# Run Vite to server development
-npm run dev
- 
-# Create and version assets for production... (I usually choose this on your local machine)
-npm run build
-```
-
-10 - Run the following command to start Apache to run the application.
-```
-php artisan serve
-```
-
 ## Docker environment
 
 Before run containers, you can choose PHP version of your preference (```8.0```,```8.1```,```8.2```,```8.3```,```8.4``` and ```8.5```). In ```docker-compose.yml``` to ```context```  change the version:
@@ -167,7 +92,7 @@ docker-compose exec app npm run build
 docker-compose down
 ```
 
-With help of [Laravel Spatie](https://spatie.be/docs/laravel-permission/v6/introduction), exist two roles user: **Admin** and **User**. Making certains roles user has more privileges than others, it is very important you run the seeds to those users be created.
+With help of [Laravel Spatie](https://spatie.be/docs/laravel-permission/v6/introduction), exist two roles user: **Admin** and **User**. Making certains roles user has more privileges than others, it's very important you run the seeds to those users be created.
 
 * Name: Mario
 ```
@@ -209,6 +134,7 @@ Some functionality are exclusives to **Admin**, others types of roles has not th
 - **[Laravel Spatie](https://spatie.be/docs/laravel-permission/v6/introduction)**
 - **[LogViewer](https://github.com/ARCANEDEV/LogViewer)**
 - **[laravel-pt-BR-localization](https://github.com/lucascudo/laravel-pt-BR-localization)**
+- **[laravel-ui](https://github.com/laravel/ui)**
 - **[pt-br-validator](https://github.com/LaravelLegends/pt-br-validator)**
 - **[sweetalert2](https://sweetalert2.github.io/)**
 - **[select2](https://select2.org/)**
