@@ -11,7 +11,7 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        $empresa = Empresa::with('chamado')->orderBy('id')->paginate(5);
+        $empresa = Empresa::with('chamado')->paginate(5);
         return view('empresa.empresa', compact('empresa'));
     }
 
@@ -42,7 +42,7 @@ class EmpresaController extends Controller
 
     public function destroy($id)
     {
-        $nome_empresa = Empresa::where('id','=',$id)->value('nome_fantasia');
+        $nome_empresa = Empresa::where('id', $id)->value('nome_fantasia');
         Empresa::where('id', $id)->delete();
         Log::channel('daily')->warning("Empresa $nome_empresa agora está na lixeira.");
         return redirect()->route('empresa')->with('trash',"Empresa $nome_empresa agora está na lixeira.");
@@ -50,7 +50,7 @@ class EmpresaController extends Controller
 
     public function trashEmpresa()
     {
-        $empresa = Empresa::with('chamado')->orderby('id')->onlyTrashed()->paginate(5);
+        $empresa = Empresa::with('chamado')->onlyTrashed()->paginate(5);
         return view('empresa.trash-empresa', compact('empresa'));
     }
 
@@ -80,14 +80,14 @@ class EmpresaController extends Controller
     public function searchEmpresa(Request $request)
     {
         $filtro = $request->input('search');
-        $empresa = Empresa::query()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->orderby('id')->paginate(5);
+        $empresa = Empresa::query()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->paginate(5);
         return view('empresa.empresa', compact('empresa'));
     }
 
     public function searchEmpresaTrash(Request $request)
     {
         $filtro = $request->input('search');
-        $empresa = Empresa::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->orderby('id')->paginate(5);
+        $empresa = Empresa::onlyTrashed()->where('nome_fantasia', 'LIKE', "%$filtro%")->with('chamado')->paginate(5);
         return view('empresa.trash-empresa', compact('empresa'));
     }
 

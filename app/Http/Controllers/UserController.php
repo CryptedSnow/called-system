@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::orderBy('id')->paginate(5);
+        $user = User::paginate(5);
         return view('user.user', compact('user'));
     }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $nome = User::where('id','=',$id)->value('name');
+        $nome = User::where('id', $id)->value('name');
         User::where('id',$id)->delete();
         Log::channel('daily')->warning("Usuário(a) $nome agora está na lixeira.");
         return redirect()->route('user')->with('trash',"Usuário(a) $nome agora está na lixeira.");
@@ -67,7 +67,7 @@ class UserController extends Controller
 
     public function trashUser()
     {
-        $user = User::onlyTrashed()->orderBy('id')->paginate(5);
+        $user = User::onlyTrashed()->paginate(5);
         return view('user.trash-user', compact('user'));
     }
 

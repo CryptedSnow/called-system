@@ -11,13 +11,13 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $role = Role::orderBy(column: 'id')->paginate(5);
+        $role = Role::paginate(5);
         return view('role.role', compact('role'));
     }
 
     public function create()
     {
-        $permissions = Permission::orderBy(column: 'id')->get();
+        $permissions = Permission::orderBy('id')->get();
         return view('role.create', compact('permissions'));
     }
 
@@ -52,7 +52,7 @@ class RoleController extends Controller
 
     public function destroy($id)
     {
-        $nome = Role::where('id', '=', $id)->value('name');
+        $nome = Role::where('id', $id)->value('name');
         Role::where('id', $id)->delete();
         Log::channel('daily')->warning("O papel $nome agora está na lixeira.");
         return redirect()->route('role')->with('trash',"O papel $nome agora está na lixeira.");

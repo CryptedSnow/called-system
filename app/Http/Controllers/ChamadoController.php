@@ -62,7 +62,7 @@ class ChamadoController extends Controller
 
     public function destroy($id)
     {
-        $titulo_chamado = Chamado::where('id','=',$id)->value('titulo');
+        $titulo_chamado = Chamado::where('id', $id)->value('titulo');
         Chamado::where('id', $id)->delete();
         Log::channel('daily')->warning("Chamado $titulo_chamado agora está na lixeira.");
         return redirect()->route('chamado')->with('trash',"Chamado $titulo_chamado agora está na lixeira.");

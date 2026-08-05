@@ -11,7 +11,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permission = Permission::orderBy('id')->paginate(5);
+        $permission = Permission::paginate(5);
         return view('permission.permission', compact('permission'));
     }
 
@@ -42,7 +42,7 @@ class PermissionController extends Controller
 
     public function destroy($id)
     {
-        $nome = Permission::where('id', '=', $id)->value('name');
+        $nome = Permission::where('id', $id)->value('name');
         Permission::where('id', $id)->delete();
         Log::channel('daily')->warning("A permissão $nome agora está na lixeira.");
         return redirect()->route('permission')->with('trash',"A permissão $nome agora está na lixeira.");

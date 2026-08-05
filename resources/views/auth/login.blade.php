@@ -58,11 +58,11 @@
                                     <i class="fa-solid fa-right-to-bracket"></i>&nbsp;{{ __('Login') }}
                                 </button>
 
-                                {{-- @if (Route::has('password.request'))
+                                @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif --}}
+                                @endif
                             </div>
                         </div>
                     </form>

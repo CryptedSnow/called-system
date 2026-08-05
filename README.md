@@ -27,34 +27,25 @@ docker-compose exec app cp .env.example .env
 docker-compose exec app php artisan key:generate
 ```
 
-You can't maintain two databases working at same time, it's necessary choose.
-```
-# Avoid conflict to mysql phpmyadmin
-docker-compose stop pgsql pgadmin
-
-# Avoid conflict to pgsql pgadmin
-docker-compose stop mysql phpmyadmin
-```
-
-Remember, before you change of database, run ```docker-compose down```, modify the ```.env``` file snippet to connect the application to database container and run ```docker-compose up -d``` again.
-
 5 - In ```.env``` file set the following snippet to connect the application to database container from **Docker**:
 ```
-# MySQL
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=called-system
 DB_USERNAME=user
 DB_PASSWORD=password
-
-# PostgreSQL
-DB_CONNECTION=pgsql
-DB_HOST=pgsql
-DB_PORT=5432
-DB_DATABASE=called-system
-DB_USERNAME=postgres
-DB_PASSWORD=secret
+```
+To use email tests, use this snippet from **Mailpit** container:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="teste@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 6 - To performate the migrations, you need use the command:
@@ -125,9 +116,7 @@ Some functionality are exclusives to **Admin**, others types of roles has not th
 
 ### Docker environment addresses
 - phpMyAdmin: http://localhost:8081
-- pgAdmin: http://localhost:5050
-    - User: `admin@admin.com`
-    - Password: `admin`
+- mailpit: http://localhost:8025
 
 ### Packages to study (They are used in this application)
 
